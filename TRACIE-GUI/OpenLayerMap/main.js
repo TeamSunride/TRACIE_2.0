@@ -309,7 +309,7 @@ function createPlotPopup() {                                    // Create popups
     });
 
     if (feature && feature.get('true_altitude') !== undefined && feature.get('timeStamp') !== undefined) {
-      if (hoverTimeout) {                       // Clear any existing timeout to avoid multiple popups
+      if (hoverTimeout) {                  s     // Clear any existing timeout to avoid multiple popups
         clearTimeout(hoverTimeout);
       }
 
@@ -438,6 +438,7 @@ document.getElementById('load-old-file-button').addEventListener('click', () => 
 document.getElementById('file-list').addEventListener('click', async (event) => {
   const selectedFile = event.target.textContent;
   if (selectedFile) {
+    rocketVectorSource.clear();
     await loadDataFromBackend(selectedFile);
   }
 });
@@ -588,12 +589,12 @@ document.getElementById('load-old-file-button').addEventListener('click', async 
 
 
 // ==== AUTOMATIC SAVING ====
-/*
+
 const saveInterval = 30000;           // Save log file every 30 seconds (ms)
 setInterval(() => {
   saveDataToBackend();
 }, saveInterval);
-*/
+
 
 window.onload = function () {
   populateFileList();

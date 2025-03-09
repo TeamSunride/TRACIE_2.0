@@ -1,0 +1,1190 @@
+{
+  "rocketData": [
+    {
+      "coordinates": [
+        -169355.06129021675,
+        6922266.006024616
+      ],
+      "raw_altitude": "502.67",
+      "true_altitude": "348.34",
+      "timeStamp": "15:12:27"
+    },
+    {
+      "coordinates": [
+        -169348.98324601943,
+        6922235.899835493
+      ],
+      "raw_altitude": "625.85",
+      "true_altitude": "471.51",
+      "timeStamp": "15:12:21"
+    },
+    {
+      "coordinates": [
+        -169344.8421609619,
+        6922264.610857254
+      ],
+      "raw_altitude": "539.09",
+      "true_altitude": "384.76",
+      "timeStamp": "15:12:26"
+    },
+    {
+      "coordinates": [
+        -169337.0831924536,
+        6922248.493020361
+      ],
+      "raw_altitude": "607.16",
+      "true_altitude": "452.83",
+      "timeStamp": "15:12:23"
+    },
+    {
+      "coordinates": [
+        -169336.7826298285,
+        6922261.104582464
+      ],
+      "raw_altitude": "567.91",
+      "true_altitude": "413.57",
+      "timeStamp": "15:12:25"
+    },
+    {
+      "coordinates": [
+        -169334.8790665359,
+        6922257.598309206
+      ],
+      "raw_altitude": "589.11",
+      "true_altitude": "434.78",
+      "timeStamp": "15:12:24"
+    },
+    {
+      "coordinates": [
+        -169387.02111602348,
+        6922265.308440906
+      ],
+      "raw_altitude": "412.58",
+      "true_altitude": "258.25",
+      "timeStamp": "15:12:31"
+    },
+    {
+      "coordinates": [
+        -169374.1971106841,
+        6922268.098776104
+      ],
+      "raw_altitude": "445.75",
+      "true_altitude": "291.42",
+      "timeStamp": "15:12:30"
+    },
+    {
+      "coordinates": [
+        -169372.93920043812,
+        6922217.689317401
+      ],
+      "raw_altitude": "634.08",
+      "true_altitude": "479.75",
+      "timeStamp": "15:12:20"
+    },
+    {
+      "coordinates": [
+        -169365.1023082863,
+        6922267.401192215
+      ],
+      "raw_altitude": "470.73",
+      "true_altitude": "316.40",
+      "timeStamp": "15:12:29"
+    },
+    {
+      "coordinates": [
+        -169463.70911323096,
+        6922257.598309206
+      ],
+      "raw_altitude": "309.78",
+      "true_altitude": "155.45",
+      "timeStamp": "15:12:38"
+    },
+    {
+      "coordinates": [
+        -169453.32300473997,
+        6922260.406999186
+      ],
+      "raw_altitude": "320.48",
+      "true_altitude": "166.14",
+      "timeStamp": "15:12:37"
+    },
+    {
+      "coordinates": [
+        -169399.5556906868,
+        6922261.802165806
+      ],
+      "raw_altitude": "382.52",
+      "true_altitude": "228.19",
+      "timeStamp": "15:12:32"
+    },
+    {
+      "coordinates": [
+        -169425.9384100048,
+        6922265.308440906
+      ],
+      "raw_altitude": "345.27",
+      "true_altitude": "190.93",
+      "timeStamp": "15:12:35"
+    },
+    {
+      "coordinates": [
+        -169412.914029582,
+        6922265.308440906
+      ],
+      "raw_altitude": "364.52",
+      "true_altitude": "210.19",
+      "timeStamp": "15:12:34"
+    },
+    {
+      "coordinates": [
+        -169438.7178875479,
+        6922266.703608384
+      ],
+      "raw_altitude": "332.15",
+      "true_altitude": "177.81",
+      "timeStamp": "15:12:36"
+    },
+    {
+      "coordinates": [
+        -169475.76501408388,
+        6922153.255255709
+      ],
+      "raw_altitude": "550.82",
+      "true_altitude": "396.49",
+      "timeStamp": "15:12:16"
+    },
+    {
+      "coordinates": [
+        -169445.79780716234,
+        6922172.1632030625
+      ],
+      "raw_altitude": "593.97",
+      "true_altitude": "439.64",
+      "timeStamp": "15:12:17"
+    },
+    {
+      "coordinates": [
+        -169422.7101447718,
+        6922186.8673754465
+      ],
+      "raw_altitude": "617.01",
+      "true_altitude": "462.67",
+      "timeStamp": "15:12:18"
+    },
+    {
+      "coordinates": [
+        -169394.41273021215,
+        6922204.38024515
+      ],
+      "raw_altitude": "631.87",
+      "true_altitude": "477.54",
+      "timeStamp": "15:12:19"
+    },
+    {
+      "coordinates": [
+        -169520.97185929504,
+        6922228.887312545
+      ],
+      "raw_altitude": "243.06",
+      "true_altitude": "88.72",
+      "timeStamp": "15:12:44"
+    },
+    {
+      "coordinates": [
+        -169511.20913995247,
+        6922230.998411737
+      ],
+      "raw_altitude": "258.87",
+      "true_altitude": "104.53",
+      "timeStamp": "15:12:42"
+    },
+    {
+      "coordinates": [
+        -169498.50758605296,
+        6922240.103680717
+      ],
+      "raw_altitude": "269.94",
+      "true_altitude": "115.60",
+      "timeStamp": "15:12:41"
+    },
+    {
+      "coordinates": [
+        -169489.8691935674,
+        6922242.196425454
+      ],
+      "raw_altitude": "281.77",
+      "true_altitude": "127.44",
+      "timeStamp": "15:12:40"
+    },
+    {
+      "coordinates": [
+        -169477.31235500588,
+        6922247.097856053
+      ],
+      "raw_altitude": "293.45",
+      "true_altitude": "139.12",
+      "timeStamp": "15:12:39"
+    },
+    {
+      "coordinates": [
+        -169595.8230849044,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.18",
+      "true_altitude": "-2.15",
+      "timeStamp": "15:13:42"
+    },
+    {
+      "coordinates": [
+        -169595.81195295535,
+        6922164.471518132
+      ],
+      "raw_altitude": "151.77",
+      "true_altitude": "-2.57",
+      "timeStamp": "15:13:49"
+    },
+    {
+      "coordinates": [
+        -169595.76742515902,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.21",
+      "true_altitude": "-2.13",
+      "timeStamp": "15:13:39"
+    },
+    {
+      "coordinates": [
+        -169595.76742515902,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.22",
+      "true_altitude": "-2.11",
+      "timeStamp": "15:13:40"
+    },
+    {
+      "coordinates": [
+        -169595.6783695664,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.16",
+      "true_altitude": "-2.17",
+      "timeStamp": "15:13:37"
+    },
+    {
+      "coordinates": [
+        -169595.66723761734,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.27",
+      "true_altitude": "-2.06",
+      "timeStamp": "15:13:36"
+    },
+    {
+      "coordinates": [
+        -169595.63384177006,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.34",
+      "true_altitude": "-2.00",
+      "timeStamp": "15:13:30"
+    },
+    {
+      "coordinates": [
+        -169595.63384177006,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.28",
+      "true_altitude": "-2.06",
+      "timeStamp": "15:13:30"
+    },
+    {
+      "coordinates": [
+        -169595.63384177006,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.26",
+      "true_altitude": "-2.08",
+      "timeStamp": "15:13:31"
+    },
+    {
+      "coordinates": [
+        -169595.622709821,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.23",
+      "true_altitude": "-2.10",
+      "timeStamp": "15:13:35"
+    },
+    {
+      "coordinates": [
+        -169595.5893139738,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.29",
+      "true_altitude": "-2.04",
+      "timeStamp": "15:13:28"
+    },
+    {
+      "coordinates": [
+        -169595.5893139738,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.18",
+      "true_altitude": "-2.16",
+      "timeStamp": "15:13:33"
+    },
+    {
+      "coordinates": [
+        -169595.5559181265,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.30",
+      "true_altitude": "-2.04",
+      "timeStamp": "15:13:21"
+    },
+    {
+      "coordinates": [
+        -169595.54478617746,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.31",
+      "true_altitude": "-2.02",
+      "timeStamp": "15:13:24"
+    },
+    {
+      "coordinates": [
+        -169595.54478617746,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.36",
+      "true_altitude": "-1.98",
+      "timeStamp": "15:13:26"
+    },
+    {
+      "coordinates": [
+        -169595.50025838113,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.15",
+      "true_altitude": "-2.18",
+      "timeStamp": "15:13:18"
+    },
+    {
+      "coordinates": [
+        -169595.50025838113,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.22",
+      "true_altitude": "-2.12",
+      "timeStamp": "15:13:19"
+    },
+    {
+      "coordinates": [
+        -169595.50025838113,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.33",
+      "true_altitude": "-2.00",
+      "timeStamp": "15:13:23"
+    },
+    {
+      "coordinates": [
+        -169595.47799448296,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.18",
+      "true_altitude": "-2.16",
+      "timeStamp": "15:13:14"
+    },
+    {
+      "coordinates": [
+        -169595.47799448296,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.18",
+      "true_altitude": "-2.15",
+      "timeStamp": "15:13:15"
+    },
+    {
+      "coordinates": [
+        -169595.47799448296,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.25",
+      "true_altitude": "-2.09",
+      "timeStamp": "15:13:17"
+    },
+    {
+      "coordinates": [
+        -169595.46686253385,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.11",
+      "true_altitude": "-2.23",
+      "timeStamp": "15:13:12"
+    },
+    {
+      "coordinates": [
+        -169595.44459863572,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.06",
+      "true_altitude": "-2.28",
+      "timeStamp": "15:13:11"
+    },
+    {
+      "coordinates": [
+        -169595.4112027885,
+        6922164.471518132
+      ],
+      "raw_altitude": "151.93",
+      "true_altitude": "-2.41",
+      "timeStamp": "15:13:08"
+    },
+    {
+      "coordinates": [
+        -169566.12304476078,
+        6922192.484706847
+      ],
+      "raw_altitude": "190.49",
+      "true_altitude": "36.15",
+      "timeStamp": "15:12:48"
+    },
+    {
+      "coordinates": [
+        -169553.61073399562,
+        6922195.972594337
+      ],
+      "raw_altitude": "202.95",
+      "true_altitude": "48.61",
+      "timeStamp": "15:12:47"
+    },
+    {
+      "coordinates": [
+        -169541.15408297582,
+        6922205.7754020365
+      ],
+      "raw_altitude": "215.16",
+      "true_altitude": "60.82",
+      "timeStamp": "15:12:46"
+    },
+    {
+      "coordinates": [
+        -169531.63626651303,
+        6922214.183063125
+      ],
+      "raw_altitude": "229.69",
+      "true_altitude": "75.36",
+      "timeStamp": "15:12:45"
+    },
+    {
+      "coordinates": [
+        -169595.37780694125,
+        6922164.471518132
+      ],
+      "raw_altitude": "151.87",
+      "true_altitude": "-2.47",
+      "timeStamp": "15:13:07"
+    },
+    {
+      "coordinates": [
+        -169595.3555430431,
+        6922164.471518132
+      ],
+      "raw_altitude": "151.77",
+      "true_altitude": "-2.56",
+      "timeStamp": "15:13:06"
+    },
+    {
+      "coordinates": [
+        -169583.75605210243,
+        6922174.274287329
+      ],
+      "raw_altitude": "164.55",
+      "true_altitude": "10.21",
+      "timeStamp": "15:12:50"
+    },
+    {
+      "coordinates": [
+        -169572.42372793966,
+        6922183.379491922
+      ],
+      "raw_altitude": "178.07",
+      "true_altitude": "23.73",
+      "timeStamp": "15:12:49"
+    },
+    {
+      "coordinates": [
+        -169595.3889388903,
+        6922164.471518132
+      ],
+      "raw_altitude": "151.93",
+      "true_altitude": "-2.41",
+      "timeStamp": "15:13:10"
+    },
+    {
+      "coordinates": [
+        -169595.31101524676,
+        6922163.773943253
+      ],
+      "raw_altitude": "151.30",
+      "true_altitude": "-3.04",
+      "timeStamp": "15:13:02"
+    },
+    {
+      "coordinates": [
+        -169595.31101524676,
+        6922163.773943253
+      ],
+      "raw_altitude": "151.56",
+      "true_altitude": "-2.77",
+      "timeStamp": "15:13:04"
+    },
+    {
+      "coordinates": [
+        -169595.28875134862,
+        6922163.773943253
+      ],
+      "raw_altitude": "151.44",
+      "true_altitude": "-2.90",
+      "timeStamp": "15:13:03"
+    },
+    {
+      "coordinates": [
+        -169595.84534880257,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.10",
+      "true_altitude": "-2.23",
+      "timeStamp": "15:13:44"
+    },
+    {
+      "coordinates": [
+        -169595.84534880257,
+        6922164.471518132
+      ],
+      "raw_altitude": "151.99",
+      "true_altitude": "-2.34",
+      "timeStamp": "15:13:47"
+    },
+    {
+      "coordinates": [
+        -169595.84534880257,
+        6922164.471518132
+      ],
+      "raw_altitude": "151.87",
+      "true_altitude": "-2.46",
+      "timeStamp": "15:13:48"
+    },
+    {
+      "coordinates": [
+        -169595.8342168535,
+        6922164.471518132
+      ],
+      "raw_altitude": "152.09",
+      "true_altitude": "-2.24",
+      "timeStamp": "15:13:45"
+    },
+    {
+      "coordinates": [
+        -169597.52627311356,
+        6922162.360436444
+      ],
+      "raw_altitude": "148.65",
+      "true_altitude": "-5.69",
+      "timeStamp": "15:12:52"
+    },
+    {
+      "coordinates": [
+        -169597.20344659023,
+        6922163.058011204
+      ],
+      "raw_altitude": "149.78",
+      "true_altitude": "-4.56",
+      "timeStamp": "15:12:53"
+    },
+    {
+      "coordinates": [
+        -169596.60232133997,
+        6922163.058011204
+      ],
+      "raw_altitude": "150.15",
+      "true_altitude": "-4.18",
+      "timeStamp": "15:12:55"
+    },
+    {
+      "coordinates": [
+        -169595.9789321915,
+        6922163.058011204
+      ],
+      "raw_altitude": "150.29",
+      "true_altitude": "-4.04",
+      "timeStamp": "15:12:56"
+    },
+    {
+      "coordinates": [
+        -169595.5559181265,
+        6922163.773943253
+      ],
+      "raw_altitude": "150.61",
+      "true_altitude": "-3.73",
+      "timeStamp": "15:12:58"
+    },
+    {
+      "coordinates": [
+        -169595.37780694125,
+        6922163.773943253
+      ],
+      "raw_altitude": "150.97",
+      "true_altitude": "-3.37",
+      "timeStamp": "15:13:00"
+    },
+    {
+      "coordinates": [
+        -169595.8230849044,
+        6922163.773943253
+      ],
+      "raw_altitude": "151.67",
+      "true_altitude": "-2.67",
+      "timeStamp": "15:13:52"
+    },
+    {
+      "coordinates": [
+        -169616.52851019197,
+        6922072.025018065
+      ],
+      "raw_altitude": "180.42",
+      "true_altitude": "26.09",
+      "timeStamp": "15:12:11"
+    },
+    {
+      "coordinates": [
+        -169582.49814185646,
+        6922090.932773937
+      ],
+      "raw_altitude": "295.12",
+      "true_altitude": "140.79",
+      "timeStamp": "15:12:12"
+    },
+    {
+      "coordinates": [
+        -169553.90016467168,
+        6922107.747864175
+      ],
+      "raw_altitude": "376.83",
+      "true_altitude": "222.50",
+      "timeStamp": "15:12:13"
+    },
+    {
+      "coordinates": [
+        -169507.1348465894,
+        6922135.063282415
+      ],
+      "raw_altitude": "490.64",
+      "true_altitude": "336.30",
+      "timeStamp": "15:12:14"
+    },
+    {
+      "coordinates": [
+        -169619.24470576734,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.22",
+      "true_altitude": "-0.12",
+      "timeStamp": "15:11:23"
+    },
+    {
+      "coordinates": [
+        -169619.24470576734,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.21",
+      "true_altitude": "-0.13",
+      "timeStamp": "15:11:25"
+    },
+    {
+      "coordinates": [
+        -169619.24470576734,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.29",
+      "true_altitude": "-0.05",
+      "timeStamp": "15:11:29"
+    },
+    {
+      "coordinates": [
+        -169619.23357381826,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.20",
+      "true_altitude": "-0.14",
+      "timeStamp": "15:11:24"
+    },
+    {
+      "coordinates": [
+        -169619.22244186918,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.29",
+      "true_altitude": "-0.05",
+      "timeStamp": "15:11:28"
+    },
+    {
+      "coordinates": [
+        -169619.2113099201,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.31",
+      "true_altitude": "-0.03",
+      "timeStamp": "15:11:27"
+    },
+    {
+      "coordinates": [
+        -169619.23357381826,
+        6922069.234751064
+      ],
+      "raw_altitude": "154.13",
+      "true_altitude": "-0.21",
+      "timeStamp": "15:11:20"
+    },
+    {
+      "coordinates": [
+        -169619.22244186918,
+        6922069.234751064
+      ],
+      "raw_altitude": "154.17",
+      "true_altitude": "-0.17",
+      "timeStamp": "15:11:21"
+    },
+    {
+      "coordinates": [
+        -169619.22244186918,
+        6922069.234751064
+      ],
+      "raw_altitude": "154.22",
+      "true_altitude": "-0.12",
+      "timeStamp": "15:11:22"
+    },
+    {
+      "coordinates": [
+        -169619.2558377164,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.25",
+      "true_altitude": "-0.09",
+      "timeStamp": "15:11:26"
+    },
+    {
+      "coordinates": [
+        -169619.30036551272,
+        6922069.234751064
+      ],
+      "raw_altitude": "154.00",
+      "true_altitude": "-0.34",
+      "timeStamp": "15:11:15"
+    },
+    {
+      "coordinates": [
+        -169619.30036551272,
+        6922069.234751064
+      ],
+      "raw_altitude": "154.03",
+      "true_altitude": "-0.31",
+      "timeStamp": "15:11:16"
+    },
+    {
+      "coordinates": [
+        -169619.28923356364,
+        6922069.234751064
+      ],
+      "raw_altitude": "154.02",
+      "true_altitude": "-0.32",
+      "timeStamp": "15:11:17"
+    },
+    {
+      "coordinates": [
+        -169619.27810161456,
+        6922069.234751064
+      ],
+      "raw_altitude": "154.07",
+      "true_altitude": "-0.27",
+      "timeStamp": "15:11:18"
+    },
+    {
+      "coordinates": [
+        -169619.2558377164,
+        6922069.234751064
+      ],
+      "raw_altitude": "154.12",
+      "true_altitude": "-0.22",
+      "timeStamp": "15:11:19"
+    },
+    {
+      "coordinates": [
+        -169619.4228169526,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.31",
+      "true_altitude": "-0.02",
+      "timeStamp": "15:11:35"
+    },
+    {
+      "coordinates": [
+        -169619.3671572072,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.35",
+      "true_altitude": "0.02",
+      "timeStamp": "15:11:34"
+    },
+    {
+      "coordinates": [
+        -169619.33376135997,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.41",
+      "true_altitude": "0.07",
+      "timeStamp": "15:11:33"
+    },
+    {
+      "coordinates": [
+        -169619.3114974618,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.36",
+      "true_altitude": "0.03",
+      "timeStamp": "15:11:32"
+    },
+    {
+      "coordinates": [
+        -169619.28923356364,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.31",
+      "true_altitude": "-0.03",
+      "timeStamp": "15:11:31"
+    },
+    {
+      "coordinates": [
+        -169619.27810161456,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.30",
+      "true_altitude": "-0.04",
+      "timeStamp": "15:11:30"
+    },
+    {
+      "coordinates": [
+        -169619.70111567958,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.22",
+      "true_altitude": "-0.11",
+      "timeStamp": "15:11:41"
+    },
+    {
+      "coordinates": [
+        -169619.6343239851,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.21",
+      "true_altitude": "-0.12",
+      "timeStamp": "15:11:40"
+    },
+    {
+      "coordinates": [
+        -169619.60092813786,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.23",
+      "true_altitude": "-0.11",
+      "timeStamp": "15:11:39"
+    },
+    {
+      "coordinates": [
+        -169619.5230044943,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.34",
+      "true_altitude": "0.00",
+      "timeStamp": "15:11:38"
+    },
+    {
+      "coordinates": [
+        -169619.5230044943,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.30",
+      "true_altitude": "-0.03",
+      "timeStamp": "15:11:38"
+    },
+    {
+      "coordinates": [
+        -169619.4673447489,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.32",
+      "true_altitude": "-0.01",
+      "timeStamp": "15:11:36"
+    },
+    {
+      "coordinates": [
+        -169620.00167830472,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.32",
+      "true_altitude": "-0.02",
+      "timeStamp": "15:11:48"
+    },
+    {
+      "coordinates": [
+        -169619.99054635564,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.28",
+      "true_altitude": "-0.06",
+      "timeStamp": "15:11:47"
+    },
+    {
+      "coordinates": [
+        -169619.901490763,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.31",
+      "true_altitude": "-0.02",
+      "timeStamp": "15:11:45"
+    },
+    {
+      "coordinates": [
+        -169619.84583101762,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.32",
+      "true_altitude": "-0.01",
+      "timeStamp": "15:11:44"
+    },
+    {
+      "coordinates": [
+        -169619.79017127224,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.32",
+      "true_altitude": "-0.02",
+      "timeStamp": "15:11:43"
+    },
+    {
+      "coordinates": [
+        -169619.7456434759,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.26",
+      "true_altitude": "-0.08",
+      "timeStamp": "15:11:42"
+    },
+    {
+      "coordinates": [
+        -169620.26884508264,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.48",
+      "true_altitude": "0.15",
+      "timeStamp": "15:11:53"
+    },
+    {
+      "coordinates": [
+        -169620.2243172863,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.47",
+      "true_altitude": "0.13",
+      "timeStamp": "15:11:52"
+    },
+    {
+      "coordinates": [
+        -169620.14639364273,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.40",
+      "true_altitude": "0.06",
+      "timeStamp": "15:11:51"
+    },
+    {
+      "coordinates": [
+        -169620.11299779548,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.30",
+      "true_altitude": "-0.04",
+      "timeStamp": "15:11:50"
+    },
+    {
+      "coordinates": [
+        -169620.06846999918,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.30",
+      "true_altitude": "-0.04",
+      "timeStamp": "15:11:49"
+    },
+    {
+      "coordinates": [
+        -169620.0128102538,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.32",
+      "true_altitude": "-0.02",
+      "timeStamp": "15:11:48"
+    },
+    {
+      "coordinates": [
+        -169620.41356042065,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.53",
+      "true_altitude": "0.20",
+      "timeStamp": "15:12:00"
+    },
+    {
+      "coordinates": [
+        -169620.39129652252,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.56",
+      "true_altitude": "0.22",
+      "timeStamp": "15:11:56"
+    },
+    {
+      "coordinates": [
+        -169620.39129652252,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.56",
+      "true_altitude": "0.22",
+      "timeStamp": "15:11:59"
+    },
+    {
+      "coordinates": [
+        -169620.36903262432,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.54",
+      "true_altitude": "0.21",
+      "timeStamp": "15:11:57"
+    },
+    {
+      "coordinates": [
+        -169620.35790067524,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.54",
+      "true_altitude": "0.20",
+      "timeStamp": "15:11:55"
+    },
+    {
+      "coordinates": [
+        -169620.32450482802,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.53",
+      "true_altitude": "0.19",
+      "timeStamp": "15:11:54"
+    },
+    {
+      "coordinates": [
+        -169620.5471438096,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.56",
+      "true_altitude": "0.22",
+      "timeStamp": "15:12:06"
+    },
+    {
+      "coordinates": [
+        -169620.52487991145,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.54",
+      "true_altitude": "0.20",
+      "timeStamp": "15:12:04"
+    },
+    {
+      "coordinates": [
+        -169620.50261601328,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.54",
+      "true_altitude": "0.21",
+      "timeStamp": "15:12:04"
+    },
+    {
+      "coordinates": [
+        -169620.4914840642,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.54",
+      "true_altitude": "0.21",
+      "timeStamp": "15:12:01"
+    },
+    {
+      "coordinates": [
+        -169620.48035211515,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.54",
+      "true_altitude": "0.21",
+      "timeStamp": "15:12:02"
+    },
+    {
+      "coordinates": [
+        -169620.45808821698,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.57",
+      "true_altitude": "0.23",
+      "timeStamp": "15:12:00"
+    },
+    {
+      "coordinates": [
+        -169620.59167160591,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.63",
+      "true_altitude": "0.29",
+      "timeStamp": "15:12:09"
+    },
+    {
+      "coordinates": [
+        -169620.59167160591,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.66",
+      "true_altitude": "0.33",
+      "timeStamp": "15:12:10"
+    },
+    {
+      "coordinates": [
+        -169620.5582757587,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.59",
+      "true_altitude": "0.25",
+      "timeStamp": "15:12:07"
+    },
+    {
+      "coordinates": [
+        -169620.5471438096,
+        6922069.932317721
+      ],
+      "raw_altitude": "154.55",
+      "true_altitude": "0.21",
+      "timeStamp": "15:12:05"
+    }
+  ],
+  "groundAltitude": 154.3350067,
+  "currentLocation": {
+    "name": "MRC",
+    "lon": -1.524257,
+    "lat": 52.668952,
+    "zoomSize": 16.8
+  }
+}
