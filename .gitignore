@@ -19,5 +19,6 @@ log_files/
 # System files
 .DS_Store
 
-# Specific to TRACIE-GUI (if needed)
 TRACIE-GUI/rubbish/
+TRACIE-GUI/log_files
+TRACIE-GUI/OpenLayerMap/log_files_map
