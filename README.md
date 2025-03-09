@@ -6,7 +6,7 @@
 - Install requirements with `pip install -r requirements.txt`
 
 ## Usage
-- From the `TRACIE` folder, run the GUI with `python3 ./TRACIE-GUI/TRACIE-GUI.py`
+- From the `TRACIE_2.0` folder, open a bash terminal and type: bash run.sh
 - Plug in the ground station and select it in the config tab
 - Click `CONNECT` to connect to the ground station
 - Change channels if needed from the config tab
