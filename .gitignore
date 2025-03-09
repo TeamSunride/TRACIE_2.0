@@ -1,0 +1,23 @@
+# Node.js
+node_modules/
+dist/
+
+# Python
+__pycache__/
+*.pyc
+venv/
+env/
+log_files/
+
+# Logs
+*.log
+
+# IDE/Editor
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+
+# Specific to TRACIE-GUI (if needed)
+TRACIE-GUI/rubbish/

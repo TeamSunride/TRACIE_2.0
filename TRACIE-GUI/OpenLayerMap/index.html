@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRACIE-GUI Map [OpenLayer]</title>
+    <link rel="stylesheet" href="./style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/ol@latest/dist/ol.js"></script>
+</head>
+<body>
+  <!-- Location Selector -->
+  <div id="location-selector">
+      <button id="location-button">Current Location: MRC</button>
+      <div id="location-dropdown">
+          <div class="location-option" data-name="MRC" data-lon="-1.524257" data-lat="52.668952" data-zoom="16.8">MRC</div>
+          <div class="location-option" data-name="EARS" data-lon="-0.086553" data-lat="52.253834" data-zoom="16.8">EARS</div>
+          <div class="location-option" data-name="Mojave" data-lon="-117.8098947187246" data-lat="35.351439637257265" data-zoom="16">FAR, Mojave Desert</div>
+          <div class="location-option" data-name="MACH-X" data-lon="-5.697710670406574" data-lat="55.435899031363505" data-zoom="16.8">MACH-X</div>
+          <div class="location-option" data-name="Diamond" data-lon="-1.481512" data-lat="53.381312" data-zoom="18.3">Diamond</div>
+      </div>
+  </div>
+
+  <!-- Load File Menu -->
+  <div id="file-selector">
+    <button id="file-button">Load Map File</button>
+    <div id="file-dropdown" class="dropdown">
+      <button id="start-new-map-button">Start New Map</button>
+      <button id="load-old-file-button">Load Old File</button>
+      <div id="file-list" class="scroll-menu">
+        <!-- File options will be populated here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation Dialog -- >
+    <div id="confirmation-dialog" class="modal">
+      <div class="modal-content">
+        <p id="confirmation-message"></p>
+        <button id="confirm-yes">Yes</button>
+        <button id="confirm-no">No</button>
+      </div>
+    </div>
+  -->
+  <!-- Map Container -->
+  <div id="map" class="map"></div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>
+

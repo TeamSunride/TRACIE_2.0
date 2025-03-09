@@ -1,0 +1,8 @@
+pyside6
+pyqtgraph
+folium
+pandas
+pyserial
+matplotlib
+opencv-python
+simplekml

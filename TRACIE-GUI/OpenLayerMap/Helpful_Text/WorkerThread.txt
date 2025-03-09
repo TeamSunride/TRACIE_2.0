@@ -1,0 +1,24 @@
+ #QThread for background timer (improve map performance)
+class Worker(QObject):
+    update_signal = Signal(str)         #Signal from worker thread to main thread to update UI
+    def __init__(self):
+        super().__init__()
+        self.background_timer = QtCore.QTimer()
+        self.background_timer.timeout.connect(self.on_timeout)
+
+    def start_timer(self):
+        self.background_timer.start(100)  
+
+    def on_timeout(self):
+        self.update_signal.emit("Timer fired")  # Emit signal to update UI
+        
+ 
+ 
+ 
+        self.backgroundTimerWorker = Worker()
+        self.backgroundTimerThread = QThread()
+
+        self.backgroundTimerWorker.moveToThread(self.backgroundTimerThread)            # Move the worker to the worker thread
+        self.backgroundTimerWorker.update_signal.connect(self.continuous_update)       # Connect worker's update signal to slot in the main thread
+        self.backgroundTimerThread.started.connect(self.backgroundTimerWorker.start_timer)                 # When the thread starts, start the timer in the worker
+        self.backgroundTimerThread.start()                                                  # Start the thread

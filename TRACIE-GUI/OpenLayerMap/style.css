@@ -1,0 +1,230 @@
+
+html, body {
+  margin: 0;
+  height: 100%;
+}
+
+
+
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  height:100%,
+}
+
+/* Location select menu */
+#location-selector {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  background: white;
+  padding: 5px;
+  border-radius: 5px;
+  border: 2px rgba(58, 127, 255, 0.5);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#location-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Arial', serif;
+  font-size: 14px;
+}
+
+#location-dropdown {
+  display: none;
+  position: absolute;
+  top: 30px;
+  right: 0;
+  font-family: 'Arial', serif;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.location-option {
+  font-family: 'Arial', serif;
+  font-size: 13px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.location-option:hover {
+  background: #f0f0f0;
+}
+
+/* Plot popups */
+.popup {
+  position: absolute;
+  background-color: rgb(255, 245, 202);
+  padding: 7px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  pointer-events: none; /* Prevents the popup from interfering with map interactions */
+  z-index: 1000;
+  transform: translate(-50%, -100%);
+  opacity: 0;                     /* Start with the popup invisible */
+  transition: opacity 0.2s ease;  /* Smooth fade-in/fade-out effect (0.2 seconds) */
+}
+
+.popup.visible {
+  opacity: 1; /* Make the popup fully visible */
+}
+
+/* Load File Menu */
+#file-selector {                      /* Container of LOAD FILE text*/
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  z-index: 1000;
+  background: white;
+  padding: 5px;
+  border-radius: 5px;
+  border: 2px rgba(58, 127, 255, 0.5);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  width: 120px;
+}
+
+#file-button {                        /* Button with LOAD FILE text*/
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: 'Arial', serif;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+#file-dropdown {                      /* Dropdown container for START-NEW-MAP & LOAD-OLD-FILE*/
+  display: none;
+  position: absolute;
+  bottom: 35px;       /* Position above the button */
+  right: 0;           /* Align with the right edge of the button */
+  font-family: 'Arial', serif;
+  background-color: #f9fdff;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+}
+
+#file-list {                            /* Vertical scrolling container*/
+  max-height: 150px; /* Show 5 files at a time (30px per file) */
+  right: 0;
+  overflow-y: auto;       /*Vertical scrolling */
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #fff;
+  padding: 5px;
+  font-family: 'Arial', serif;
+}
+
+#file-list .file-option {               /* File load options in vertical scroll*/
+  padding: 8px 12px;
+  cursor: pointer;
+  border-bottom: 1px solid #ddd;
+  font-size: 12px;
+  font-family: 'Arial', serif;
+}
+
+#file-list .file-option:hover {
+  background: #f1f1f1;
+}
+
+#file-list .file-option:last-child {
+  border-bottom: none; /* Remove border for the last item */
+}
+
+#start-new-map-button,
+#load-old-file-button {
+  width: 100%;
+  padding: 8px 12px;
+  font-family: 'Arial', serif;
+  font-size: 13px;
+  cursor: pointer;
+  border: 1px solid #ccc;
+  background: #f9f9f9;
+  margin-top: 5px;
+}
+
+#start-new-map-button:hover {
+  background: #c1ffb6;
+}
+
+#load-old-file-button:hover {
+  background: #9deaff;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  background-color: white;
+  min-width: 260px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  border: 1px solid #ccc;
+  z-index: 1;
+}
+
+.scroll-menu {
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.file-option {
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  cursor: pointer;
+}
+
+.file-option:hover {
+  background: #f0f0f0;
+}
+
+/* Confirmation Dialog Styles 
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: white;
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 300px;
+  text-align: center;
+  border-radius: 5px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modal-content button {
+  margin: 10px;
+  padding: 8px 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+}
+
+.modal-content button:hover {
+  background-color: #0056b3;
+}
+  */
