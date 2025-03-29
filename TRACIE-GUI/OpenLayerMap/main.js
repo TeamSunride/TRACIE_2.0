@@ -26,6 +26,7 @@ const defaultLocation = {       // Set MRC as default location
   lon: -1.524257,
   lat: 52.668952,
   zoomSize: 16.8,
+  minZoomSize:14,
 };
 let currentLocation = defaultLocation;
 let centerCoords = fromLonLat([defaultLocation.lon, defaultLocation.lat]);
@@ -128,7 +129,8 @@ const map = new Map({
   view: new View({
     center: fromLonLat([currentLocation.lon, currentLocation.lat]),
     zoom: currentLocation.zoomSize,
-    maxZoom: 20,
+    minZoom: currentLocation.minZoomSize,
+    maxZoom: 17,
   })
 });
 
@@ -362,6 +364,7 @@ function createLocationButton(map) {                          // Location Select
         lon: parseFloat(option.getAttribute('data-lon')),
         lat: parseFloat(option.getAttribute('data-lat')),
         zoomSize: parseFloat(option.getAttribute('data-zoom')),
+        minZoomSize: parseFloat(option.getAttribute('data-minZoom')),
       };
       updateMapLocation(currentLocation,map);
       locationDropdown.style.display = 'none';          // Hide the dropdown
@@ -380,6 +383,7 @@ function updateMapLocation(currentLocation, map) {              // Used by Locat
   const newCenterCoords = fromLonLat([currentLocation.lon, currentLocation.lat]);
   map.getView().setCenter(newCenterCoords);                                           // Update the map view, center marker, dotsStyle, & Location Select button text
   map.getView().setZoom(currentLocation.zoomSize);
+  map.getView().setMinZoom(currentLocation.minZoomSize);
 
   centerMarker.getGeometry().setCoordinates(newCenterCoords);
   centerVectorSource.changed();
@@ -406,6 +410,7 @@ document.getElementById('start-new-map-button').addEventListener('click', () => 
   currentLocation = defaultLocation;                                // Reset to default location (MRC)
   map.getView().setCenter(centerCoords);
   map.getView().setZoom(defaultLocation.zoomSize);
+  map.getView().setMinZoom(defaultLocation.minZoomSize);
   console.log('New map loaded!');
 });
 
