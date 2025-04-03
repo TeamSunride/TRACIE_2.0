@@ -135,12 +135,10 @@ const map = new Map({
   })
 });
 
+const connectionStatusMessage = document.getElementById('status-message');
 const locationButton = createLocationButton(map);
 locationButton.textContent = `Current Location: ${defaultLocation.name}`;
 createPlotPopup();
-
-
-
 
 
 // === WEBSOCKET SERVER ===
@@ -162,10 +160,19 @@ function connectWebSocket() {       //Everything that matters with getting data 
         console.log("[CLIENT] Received Ground altitude update:", groundAltitude);
         updateMarkerAltitudes();                        // Update all true altitude of previous points, refresh map
       }
-      else {                                          // Receive rocket data
-        push2rocketCoords(data);                      // Plot rocket data
+      else {              
+        if (data.isFinal)  {                   // TRACIE Connection loss - last packet sent >3s ago
+            updateConnectionStatus('red');     // Plot last received data
+            push2rocketCoords(data.packet_data);
+            console.log("[MAIN.JS] RED MESSAGE RECEIVED! Received final packet before disconnect");
+            return;
+        }
+        else {
+          updateConnectionStatus('green');             // Set status-message to green
+          push2rocketCoords(data);
+        }
+        }
       }
-    }
     catch (e) {
       console.error("[MAIN.JS] Error parsing data:", e);
     }
@@ -248,21 +255,9 @@ function getDotStyleSet(location) {
 
 function getDotStyle(index, total, dotStyleSet) {
   // Fixed dot Styles
-  const dotStyle_prelaunch = { color: 'hsl(30, 0%, 50%)', radius: 3}; 
-  const dotStyle_postlaunch = { color: 'hsl(30, 50%, 50%)', radius: 3};
   const dotStyle_Red = { color: 'hsl(0, 100%, 50%)', radius: 5};
 
-  const index_prelaunch = 0;      //Change by button later
-  const index_postlaunch = 0;
-
-  //Differentiate points before launch & recovery
-  if (index_prelaunch !== 0 && index < index_prelaunch) { return dotStyle_prelaunch;}        
-  if (index_postlaunch !== 0 && index > index_postlaunch) {return dotStyle_postlaunch;}
-
-  total = total - index_prelaunch;        //TODO: likely move out as global and put in as argument
-  index = index - index_prelaunch;
   var ratio = index/total;
-
 
   if (ratio < 0.3) {return dotStyleSet[0];}              // Return the Xth element in the dotStyleSet array
   else if (ratio >= 0.3 && ratio < 0.55) {return dotStyleSet[1];}
@@ -395,6 +390,25 @@ function updateMapLocation(currentLocation, map) {              // Used by Locat
   locationButton.textContent = `Current Location: ${currentLocation.name}`;
 }
 
+
+function updateConnectionStatus(status) {
+  switch (status) { 
+    case 'grey': 
+      connectionStatusMessage.textContent = 'Tracie status: Not Connected';
+      connectionStatusMessage.style.backgroundColor = '#b8b8b8';
+      break;
+    case 'green':
+      connectionStatusMessage.textContent = 'Tracie status: Connected';
+      connectionStatusMessage.style.backgroundColor = "#26ff35";
+      break;
+    case 'red':
+      connectionStatusMessage.textContent = 'Tracie status: CONNECTION LOSS';
+      connectionStatusMessage.style.backgroundColor = "#ff7038";
+      break;
+    default:
+      break;
+  }
+}
 //'https://upload.wikimedia.org/wikipedia/commons/a/a3/June_odd-eyed-cat.jpg'       //Fav placeholder image
 
 
@@ -457,6 +471,7 @@ document.getElementById('load-old-file-button').addEventListener('click', async 
 window.onload = function () {                           // Load the save file options when the map is opened
   populateFileList();
   console.log('[INIT] Page loaded and dropdown populated');
+  updateConnectionStatus('grey');                      // TRACIE connection status until good package received
 };
 
 window.addEventListener('beforeunload', () => {       // Save data when the browser is closed or refreshed
