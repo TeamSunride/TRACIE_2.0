@@ -67,7 +67,7 @@ class AsyncioThread(QThread):
         try:
             async with websockets.connect(uri) as ws:
                 if message_type == "data_message":
-                    data_selected = [data[0],data[1],data[2],data[9]]                   # Only send long, lat, alt, radio_state
+                    data_selected = [data[0],data[1],data[2],data[3],data[9]]                   # Only send long, lat, alt, (GPS) fix, radio_state
                     data_send = ",".join(data_selected).replace(" ", "")
                     await ws.send(data_send)               # Send data as CSV string
                     #print(f"[GUI] Data sent.",data_send)
@@ -108,7 +108,7 @@ class TRACIE_GUI(QMainWindow, Interface_ui.Ui_MainWindow):
         self.selectedDevice = ""
         
         # ==== SELECT REAL/FAKE SERIAL ====
-        self.ser_realfake = 0                 # 1 for REAL (TRACIE board connected). 0 for FAKE (fakeSerial.py)
+        self.ser_realfake = 1                 # 1 for REAL (TRACIE board connected). 0 for FAKE (fakeSerial.py)
         if (self.ser_realfake == 1):
             self.ser = None
         elif (self.ser_realfake == 0):

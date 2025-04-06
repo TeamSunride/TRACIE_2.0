@@ -14,8 +14,11 @@ import { Style, Icon, Circle as CircleStyle, Fill, Stroke} from 'ol/style';
 
 // ==== SET UP EVERYTHING ====
 let groundAltitude = 0;
+let flightStartTime = new Date(); // Reset timestamp
+let currentFileName = '';
+let fileTimestamp = '';
+let isNewFlight = true;
 //const launchTime = Date.now() / 1000;      //in seconds. need apply formatTimeLater use for onHover: T+ X seconds
-connectWebSocket();                 // Start the WebSocket connection and plotting coords
 
 //=== MAP INITIALISATION ===
 const token = 'pk.eyJ1Ijoicm9ib3NhbTIwMDMiLCJhIjoiY2x3b3dkZzllMmN4bDJpcGZ3YTM5Y2YzOSJ9.qw98dr1XT293FplEQ-ToYQ';
@@ -135,10 +138,13 @@ const map = new Map({
   })
 });
 
+connectWebSocket();                 // Start the WebSocket connection and plotting coords
 const connectionStatusMessage = document.getElementById('status-message');
 const locationButton = createLocationButton(map);
 locationButton.textContent = `Current Location: ${defaultLocation.name}`;
 createPlotPopup();
+createStartNewMapButton();
+createLoadOldFileButton();
 
 
 // === WEBSOCKET SERVER ===
@@ -160,19 +166,26 @@ function connectWebSocket() {       //Everything that matters with getting data 
         console.log("[CLIENT] Received Ground altitude update:", groundAltitude);
         updateMarkerAltitudes();                        // Update all true altitude of previous points, refresh map
       }
+
       else {              
-        if (data.isFinal)  {                   // TRACIE Connection loss - last packet sent >3s ago
-            updateConnectionStatus('red');     // Plot last received data
-            push2rocketCoords(data.packet_data);
-            console.log("[MAIN.JS] RED MESSAGE RECEIVED! Received final packet before disconnect");
-            return;
+        if (data.isFinal)  {                           // TRACIE Connection loss - last packet sent >3s ago
+          updateConnectionStatus('red');              // Plot last received data
+          push2rocketCoords(data.packet_data);
+          //console.log("[MAIN.JS] RED MESSAGE RECEIVED! Received final packet before disconnect");
+          return;
+        }
+        else if (data.isWaitingGPSFix) {                // TRACIE connected but not accurate GPS
+          updateConnectionStatus('yellow');           // Plot last received data
+          //console.log("[MAIN.JS] YELLOW MESSAGE RECEIVED! Packet not plotted");
+          return;
         }
         else {
           updateConnectionStatus('green');             // Set status-message to green
           push2rocketCoords(data);
         }
-        }
       }
+    }
+
     catch (e) {
       console.error("[MAIN.JS] Error parsing data:", e);
     }
@@ -276,6 +289,7 @@ function updateMarkerAltitudes() {                     //Update previous plots w
   map.render();                           // Refresh the map to reflect changes
 }
 
+// ==== CREATE HTML ELEMENTS ====
 function createPlotPopup() {                                    // Create popups over plot features
   const existingPopup = document.querySelector('.popup');
   if (existingPopup) {
@@ -355,7 +369,7 @@ function createLocationButton(map) {                          // Location Select
 
   locationOptions.forEach(option => {                                   // Handle location selection
     option.addEventListener('click', () => {
-      currentLocation = {                                              // Update the current location
+      const newLocation = {                                              // Update the current location
         name: option.getAttribute('data-name'),
         lon: parseFloat(option.getAttribute('data-lon')),
         lat: parseFloat(option.getAttribute('data-lat')),
@@ -363,7 +377,17 @@ function createLocationButton(map) {                          // Location Select
         minZoomSize: parseFloat(option.getAttribute('data-minZoom')),
         maxZoomSize: parseFloat(option.getAttribute('data-maxZoom')),
       };
-      updateMapLocation(currentLocation,map);
+      updateMapView(newLocation, map);
+      
+      if (newLocation.name !== currentLocation.name) { 
+        currentLocation = newLocation;
+        generateNewLogFile();
+      }
+      else {
+        isNewFlight = false;
+        saveDataToBackend();
+      }
+      //console.log("Current location: ", currentLocation.name);
       locationDropdown.style.display = 'none';          // Hide the dropdown
     });
   });
@@ -376,7 +400,49 @@ function createLocationButton(map) {                          // Location Select
   return locationButton;
 }
 
-function updateMapLocation(currentLocation, map) {              // Used by Location Selection Menu, Start-New-Map, & Load-Old-File
+function createStartNewMapButton() { 
+  document.getElementById('start-new-map-button').addEventListener('click', () => {
+    rocketVectorSource.clear();         // Clear the current map, ground altitude, location => MRC
+    groundAltitude = 0;
+    currentLocation = defaultLocation;
+    updateMapView(currentLocation, map);        // Update map center and viewds
+    generateNewLogFile();
+  });
+}
+
+function createLoadOldFileButton() { 
+  document.getElementById('file-button').addEventListener('click', () => {
+    const fileDropdown = document.getElementById('file-dropdown');
+    fileDropdown.style.display = fileDropdown.style.display === 'block' ? 'none' : 'block';
+  });
+
+    // LOAD-OLD-FILE Button. Toggle the scroll menu
+  document.getElementById('load-old-file-button').addEventListener('click', () => {
+    const fileList = document.getElementById('file-list');
+    fileList.style.display = fileList.style.display === 'block' ? 'none' : 'block';
+  });
+
+  // Loading a file from the scroll menu          // async prob move out if issue.
+  document.getElementById('file-list').addEventListener('click', async (event) => {
+    const selectedFile = event.target.textContent;
+    if (selectedFile) {
+      rocketVectorSource.clear();
+      await loadDataFromBackend(selectedFile);
+    }
+  });
+
+  document.getElementById('load-old-file-button').addEventListener('click', async () => {
+    const dropdown = document.getElementById('load-file-dropdown');
+    const selectedFile = dropdown.value;
+  
+    if (selectedFile) {
+      await loadDataFromBackend(selectedFile);
+    }
+  });
+
+}
+
+function updateMapView(currentLocation, map) {              // Update map view. Used by Location Selection Menu, Start-New-Map, & Load-Old-File
   const newCenterCoords = fromLonLat([currentLocation.lon, currentLocation.lat]);
   map.getView().setCenter(newCenterCoords);                                           // Update the map view, center marker, dotsStyle, & Location Select button text
   map.getView().setZoom(currentLocation.zoomSize);
@@ -390,12 +456,16 @@ function updateMapLocation(currentLocation, map) {              // Used by Locat
   locationButton.textContent = `Current Location: ${currentLocation.name}`;
 }
 
-
+// ==== OTHER STUFF ====
 function updateConnectionStatus(status) {
   switch (status) { 
     case 'grey': 
       connectionStatusMessage.textContent = 'Tracie status: Not Connected';
       connectionStatusMessage.style.backgroundColor = '#b8b8b8';
+      break;
+    case 'yellow':
+      connectionStatusMessage.textContent = 'Tracie status: Waiting for GPS fix...';
+      connectionStatusMessage.style.backgroundColor = "#ffe138";
       break;
     case 'green':
       connectionStatusMessage.textContent = 'Tracie status: Connected';
@@ -411,84 +481,29 @@ function updateConnectionStatus(status) {
 }
 //'https://upload.wikimedia.org/wikipedia/commons/a/a3/June_odd-eyed-cat.jpg'       //Fav placeholder image
 
-
-// ==== BUTTON EVENT LISTENERS ====
-
-// LOAD FILE Button
-document.getElementById('file-button').addEventListener('click', () => {
-  const fileDropdown = document.getElementById('file-dropdown');
-  fileDropdown.style.display = fileDropdown.style.display === 'block' ? 'none' : 'block';
-});
-
-// START-NEW-MAP  Button
-document.getElementById('start-new-map-button').addEventListener('click', () => {
-  rocketVectorSource.clear();                                       // Clear rocket markers on current map
-  groundAltitude = 0;                                               // Reset ground altitude
-  currentLocation = defaultLocation;                                // Reset to default location (MRC)
-  map.getView().setCenter(centerCoords);
-  map.getView().setZoom(defaultLocation.zoomSize);
-  map.getView().setMinZoom(defaultLocation.minZoomSize);
-  map.getView().setMaxZoom(defaultLocation.maxZoomSize);
-  console.log('New map loaded!');
-});
-
-// LOAD-OLD-FILE Button. Toggle the scroll menu
-document.getElementById('load-old-file-button').addEventListener('click', () => {
-  const fileList = document.getElementById('file-list');
-  fileList.style.display = fileList.style.display === 'block' ? 'none' : 'block';
-});
-
-// Loading a file from the scroll menu
-document.getElementById('file-list').addEventListener('click', async (event) => {
-  const selectedFile = event.target.textContent;
-  if (selectedFile) {
-    rocketVectorSource.clear();
-    await loadDataFromBackend(selectedFile);
-  }
-});
-
-
-// ==== BUTTON HANDLERS ====
-document.getElementById('start-new-map-button').addEventListener('click', () => {
-  rocketVectorSource.clear();         // Clear the current map, ground altitude, location => MRC
-  groundAltitude = 0;
-  currentLocation = defaultLocation;
-
-  updateMapLocation(currentLocation, map);
-});
-
-document.getElementById('load-old-file-button').addEventListener('click', async () => {
-  const dropdown = document.getElementById('load-file-dropdown');
-  const selectedFile = dropdown.value;
-
-  if (selectedFile) {
-    await loadDataFromBackend(selectedFile);
-  } else {
-    alert('Please select a save file to load.');
-  }
-});
-
-window.onload = function () {                           // Load the save file options when the map is opened
-  populateFileList();
-  console.log('[INIT] Page loaded and dropdown populated');
-  updateConnectionStatus('grey');                      // TRACIE connection status until good package received
-};
-
-window.addEventListener('beforeunload', () => {       // Save data when the browser is closed or refreshed
-  saveDataToBackend();
-});
-
 // ==== SAVE AND LOADING MAP DATA ====
-function generateFileName(location) {
-  // FIlename for map log files
+function generateFileName(location) {                         // FIlename for map log files
   const now = new Date();
-  const date = now.toISOString().split('T')[0]; // YYYY-MM-DD
+  const date = now.toISOString().split('T')[0];                     // YYYY-MM-DD
   const time = now.toTimeString().split(' ')[0].replace(/:/g, '-'); // HH-MM-SS
-  return `${location}_${date}_${time}.json`;
+
+  fileTimestamp =  `${date}_${time}`
+  currentFileName = `${location}_${fileTimestamp}`;
+  return `${currentFileName}.json`;
 }
 
-async function saveDataToBackend() {
-   // Save data to the backend as JSON                  
+function generateNewLogFile() { 
+    isNewFlight = true;
+    flightStartTime = new Date();                   // Reset timestamp
+
+    const newFileName = generateFileName(currentLocation.name); 
+    fileTimestamp = newFileName.split('_').slice(1,3).join('_').replace('.json', '');
+    currentFileName = newFileName.replace('.json', '');
+
+    saveDataToBackend();                            // Start new log file
+}
+
+async function saveDataToBackend() {                        // Save data to the backend as JSON  
   const features = rocketVectorSource.getFeatures();
   const rocketDataToSave = features.map(feature => ({
     coordinates: feature.getGeometry().getCoordinates(),
@@ -497,7 +512,8 @@ async function saveDataToBackend() {
     timeStamp: feature.get('timeStamp'),
   }));
 
-  const fileName = generateFileName(currentLocation.name);
+  const fileName = `${currentFileName}.json`;
+  //const fileName = isNewFlight ? generateFileName(currentLocation.name) : `${currentFileName}.json`;     // If new flight, create new file. Else, save to current file.
 
   try {
     const response = await fetch('http://localhost:8000/save-data', {
@@ -505,14 +521,20 @@ async function saveDataToBackend() {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({                                  // TO-DO: prelaunch_index, postlaunch_index, launchTime
+      body: JSON.stringify({
         rocketData: rocketDataToSave,
         groundAltitude: groundAltitude,
         currentLocation: currentLocation,
-        fileName: fileName,
+        fileName,
+        fileTimestamp,
+        isNewFlight,
       }),
     });
 
+    if (isNewFlight) { 
+      isNewFlight = false;
+    }
+    
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
@@ -524,13 +546,12 @@ async function saveDataToBackend() {
   }
 }
 
-async function loadDataFromBackend(fileName) {
-  // Load old data from the backend
+async function loadDataFromBackend(fileName) {              // Load old data from the backend
   try {
     const response = await fetch(`http://localhost:8000/load-data?file=${fileName}`);
     const data = await response.json();
 
-    if (data.rocketData) {
+    if (data.rocketData) {                                          // Keep the if (data.XXX) in case of loading an empty file
       const features = data.rocketData.map(data => {
         const rocketMarker = new Feature({
           geometry: new Point(data.coordinates),
@@ -547,21 +568,20 @@ async function loadDataFromBackend(fileName) {
     if (data.groundAltitude) {
       groundAltitude = parseFloat(data.groundAltitude);
     }
-
     if (data.currentLocation) {
       currentLocation = data.currentLocation;
-      updateMapLocation(currentLocation, map);
+      updateMapView(currentLocation, map);
     }
+
     createPlotPopup();
-    
     console.log(`[LOAD] Data loaded successfully from ${fileName}`);
-  } catch (error) {
+  }
+  catch (error) {
     console.error('[LOAD] Error loading data:', error);
   }
 }
 
-async function populateFileList() {
-  // Populate the dropdown menu with save files
+async function populateFileList() {                                       // Populate the dropdown menu with save files
   try {
     const response = await fetch('http://localhost:8000/list-save-files');
     const files = await response.json();
@@ -574,7 +594,7 @@ async function populateFileList() {
     });
 
     const fileList = document.getElementById('file-list');
-    fileList.innerHTML = ''; // Clear the list
+    fileList.innerHTML = '';                                  // Clear the list
 
     // Populate the sorted file list
     sortedFiles.forEach(file => {
@@ -625,11 +645,18 @@ function extractISODateTime(filename) {
 }
 
 
+window.onload = function () {                           // Load the save file options when the map is opened
+  populateFileList();                                                                                                       //console.log('[INIT] Page loaded and dropdown populated');
+  updateConnectionStatus('grey');                      // TRACIE connection status until good package received
+  generateNewLogFile();
+};
+
+window.addEventListener('beforeunload', saveDataToBackend);   // Save data when the browser is closed or refreshed
+window.addEventListener('unload', saveDataToBackend);         // Last resort
+//window.addEventListener('pagehide', saveDataToBackend);     // For mobile/bfcache
 
 // ==== AUTOMATIC SAVING ====
-/*
-const saveInterval = 30000;           // Save log file every 30 seconds (ms)
+const saveInterval = 10000;           // Save log file every 30 seconds (ms)
 setInterval(() => {
   saveDataToBackend();
 }, saveInterval);
-*/

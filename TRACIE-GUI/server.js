@@ -50,7 +50,7 @@ const inactivityChecker = setInterval(() => {                   // Check when TR
   if (currentTime - last_packet_rec_time > CONNECTION_TIMEOUT) {
     const redAlert = {                                    // Send last good packet with isFinal property
       packet_data: data_received,
-      isFinal: true 
+      isFinal: true
     };
     mapClient.send(JSON.stringify(redAlert));
     hasSentRedAlert = true;
@@ -94,17 +94,31 @@ wss.on('connection', (ws) => {
 
     // ==== SENDING DATA STREAM ====
     data_received = cleanArray(message);                      //console.log("[SERVER] Message received:", data_received);     // Should receive: ['lon','lat','altitude','radio_state']
-    if (data_received[3] != "0") {return;}                  //Skip corrupted packets (radio_state = "1")
-    
+    if (data_received[4] != "0") {                            //Skip corrupted packets (radio_state = "1")
+      return;
+    }
+    else if (data_received[3] == 0) {                       // GPS fix = 0, connected but not accurate GPS
+      const yellowAlert = {
+        packet_data: data_received,
+        isWaitingGPSFix: true
+      };
+      mapClient.send(JSON.stringify(yellowAlert));
+      sendCounter = 3;                                      // To send the next good packet immediately
+      return;
+    }
+
+    // Good packets only 
     sendCounter += 1;                                       // Increment counter for every good packet
     hasSentRedAlert = false;                                // Enable inactivityChecker
     last_packet_rec_time = new Date().getTime() / 1000;
 
-    if (sendCounter != send_rate) {return;}                  // Skip good packets to send at set rate
+    if (sendCounter != send_rate) {                       
+      return;
+    }
     else {
       const data_send = JSON.stringify(data_received);
       mapClient.send(data_send);                            //Send data to main.js (OpenLayer map)
-      sendCounter= 0;
+      sendCounter = 0;
     }
   })
 
@@ -137,31 +151,32 @@ function cleanArray(data) {
 
 
 // ==== SAVING MAP DATA ====
+let correct_fileTimestamp = '';                   // Issues with randomly opening and logging to old files
+
 app.post('/save-data', (req, res) => {
-  const { rocketData, groundAltitude, currentLocation, fileName } = req.body;
-
-  if (!fileName) {
-    return res.status(400).send('File name is required');
-  }
-
+  const { rocketData, groundAltitude, currentLocation, fileName, fileTimestamp, isNewFlight } = req.body;
   const filePath = join(logFilesMapFolder, fileName);
 
-  const dataToSave = {
-    rocketData,
-    groundAltitude,
-    currentLocation,
-  };
+  if (isNewFlight) {                                     // If is new flight: update correct_fileTimestamp & create new file with all data
+    correct_fileTimestamp = fileTimestamp;
+    console.log(`\nNew canon timestamp set: ${correct_fileTimestamp}`);
+  }
 
-  fs.writeFile(filePath, JSON.stringify(dataToSave, null, 2), (err) => {
-    if (err) {
-      console.error('Error saving data:', err);
-      return res.status(500).send('Failed to save data');
-    }
-    console.log(`Data saved to ${filePath}`);
-    res.send('Data saved successfully');
-  });
+  if (correct_fileTimestamp && fileTimestamp !== correct_fileTimestamp) {     // If the fileTimestamp of the file currently opened doesn't match: ignore
+    console.warn(`Rejected save: Expected ${correct_fileTimestamp}, got ${fileTimestamp}`);
+    return res.status(400).json({ 
+      error: "Timestamp mismatch",
+      expected: correct_fileTimestamp,
+      received: fileTimestamp
+    });
+  }
+
+  fs.writeFileSync(filePath, JSON.stringify({rocketData,groundAltitude,currentLocation}, null, 2));
+  console.log(`Data saved to ${fileName}`);     // or filePath
+  res.send('Data saved successfully');
 });
 
+// ==== LOADING OLD DATA ====
 app.get('/load-data', (req, res) => {
   const fileName = req.query.file;
 
@@ -170,6 +185,10 @@ app.get('/load-data', (req, res) => {
   }
 
   const filePath = join(logFilesMapFolder, fileName);
+  
+    // Update the canonical timestamp when loading old files
+    correct_fileTimestamp = fileName.split('_').slice(2).join('_').replace('.json', '');
+    console.log(`[LOAD] Setting canon timestamp to ${correct_fileTimestamp}`);
 
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {

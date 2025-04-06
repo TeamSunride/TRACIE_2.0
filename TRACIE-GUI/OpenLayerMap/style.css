@@ -193,24 +193,24 @@ html, body {
 
 
 #status-message {
-  position: fixed; /* Stays in viewport */
+  position: fixed;
   display: flex;
   min-height: 10px;
-  min-width: 180px;
+  min-width: 190px;
   top: 10px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
-  justify-content: center; /* Horizontally centers child */
+  justify-content: center;
   font-family: 'Arial', serif;
   font-size: 12px;
-  background: #5a5a5a;
+  background: #b8b8b8;
   padding: 3px 5px;
   border-radius: 2px;
   border: 2px rgba(58, 127, 255, 0.5);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  color: black;             /* White text for better contrast */
-  white-space: nowrap; /* Prevent text wrapping */
+  color: black;
+  white-space: nowrap;    /* Prevent text wrapping */
 }
 
 /* Confirmation Dialog Styles 
