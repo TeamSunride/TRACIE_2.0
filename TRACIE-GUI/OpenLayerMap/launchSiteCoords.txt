@@ -1,0 +1,55 @@
+[LOCATION]:
+[longitude]              //ON GOOGLE MAPS: given [X.XX N/S] [X.XX W/E].   Swap the order. OpenLayer demands it.
+[latitude]               //USE THIS CONVENTION: long = W/E    lat = N/S
+[zoomSize]
+
+COPY THE CODE FOR YOUR LOCATION AND REPLACE defaultLocation IN main.js
+==== MRC ====
+const defaultLocation = {       // Set MRC as default location
+  name: 'MRC',
+  lon: -1.524257,
+  lat: 52.668952,
+  zoomSize: 16.8,
+  minZoomSize: 14,
+  maxZoomSize: 20,
+};
+
+=== EARS ====
+const defaultLocation = {       // Set EARS as default location
+  name: 'EARS',
+  lon: -0.093404,
+  lat: 52.250933
+  zoomSize: 16.8,
+  minZoomSize: 14,
+  maxZoomSize: 20,
+};
+
+==== MOJAVE ====
+const defaultLocation = {       // Set FAR, Mojave Desert as default location
+  name: 'Mojave',
+  lon: 117.8098947187246,
+  lat: 35.351439637257265,
+  zoomSize: 16,
+  minZoomSize: 10,
+  maxZoomSize: 16,
+};
+
+==== MACH-X ====
+const defaultLocation = {       // Set Mach-X as default location
+  name: 'MACH-X',
+  lon: -5.697710670406574,
+  lat: 55.435899031363505,
+  zoomSize: 16.8,
+  minZoomSize: 14,
+  maxZoomSize: 19,
+};
+
+==== DIAMOND ====
+const defaultLocation = {       // Set Diamond as default location
+  name: 'Diamond',
+  lon: -1.481512,
+  lat: 53.381312,
+  zoomSize: 18.3,
+  minZoomSize: 15,
+  maxZoomSize: 19,
+};
