@@ -1185,6 +1185,8 @@
     "name": "MRC",
     "lon": -1.524257,
     "lat": 52.668952,
-    "zoomSize": 16.8
+    "zoomSize": 16.8,
+    "minZoomSize": 14,
+    "maxZoomSize": 20
   }
 }
