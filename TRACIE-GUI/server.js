@@ -88,8 +88,8 @@ wss.on('connection', (ws) => {
       const parts = messageStr.split(":");
       const groundAltitude = parseFloat(parts[1]);                             // Remove GROUND_ALTITUDE: part, parse buffer into float
       const groundAltitudeMessage = JSON.stringify({groundAltitude});          // Send as a JSON object wth the property groundAltitude
-      //console.log("[SERVER] Ground altitude update sent:", groundAltitudeMessage);
       mapClient.send(groundAltitudeMessage);
+      //console.log("[SERVER] Ground altitude update sent:", groundAltitudeMessage);
     }
 
     // ==== SENDING DATA STREAM ====
@@ -151,19 +151,19 @@ function cleanArray(data) {
 
 
 // ==== SAVING MAP DATA ====
-let correct_fileTimestamp = '';                   // Issues with randomly opening and logging to old files
+let correct_fileTimestamp = '';
 
 app.post('/save-data', (req, res) => {
   const { rocketData, groundAltitude, currentLocation, fileName, fileTimestamp, isNewFlight } = req.body;
   const filePath = join(logFilesMapFolder, fileName);
 
-  if (isNewFlight) {                                     // If is new flight: update correct_fileTimestamp & create new file with all data
+  if (isNewFlight) {                                     // If is new flight: update correct_fileTimestamp to save ONLY to the new file
     correct_fileTimestamp = fileTimestamp;
-    console.log(`\nNew canon timestamp set: ${correct_fileTimestamp}`);
+    console.log(`\nSaving data from date & time: ${correct_fileTimestamp}`);
   }
 
-  if (correct_fileTimestamp && fileTimestamp !== correct_fileTimestamp) {     // If the fileTimestamp of the file currently opened doesn't match: ignore
-    console.warn(`Rejected save: Expected ${correct_fileTimestamp}, got ${fileTimestamp}`);
+  if (correct_fileTimestamp && fileTimestamp !== correct_fileTimestamp) {                             // Solves issue of with randomly opening and logging to old files
+    //console.warn(`Rejected save: Expected ${correct_fileTimestamp}, got ${fileTimestamp}`);         // If the fileTimestamp of the file currently opened doesn't match: ignore
     return res.status(400).json({ 
       error: "Timestamp mismatch",
       expected: correct_fileTimestamp,
@@ -171,8 +171,8 @@ app.post('/save-data', (req, res) => {
     });
   }
 
-  fs.writeFileSync(filePath, JSON.stringify({rocketData,groundAltitude,currentLocation}, null, 2));
-  console.log(`Data saved to ${fileName}`);     // or filePath
+  fs.writeFileSync(filePath, JSON.stringify({rocketData,groundAltitude,currentLocation}, null, 2));   // Save the data
+  console.log(`AUTOSAVE: Data saved to ${fileName}`);     // or ${filePath}
   res.send('Data saved successfully');
 });
 
@@ -185,10 +185,9 @@ app.get('/load-data', (req, res) => {
   }
 
   const filePath = join(logFilesMapFolder, fileName);
-  
-    // Update the canonical timestamp when loading old files
-    correct_fileTimestamp = fileName.split('_').slice(2).join('_').replace('.json', '');
-    console.log(`[LOAD] Setting canon timestamp to ${correct_fileTimestamp}`);
+    correct_fileTimestamp = fileName.split('_').slice(2).join('_').replace('.json', '');       // Update the  correct_fileTimestamp when loading old files 
+    console.log(`\nLoading map data from: ${fileName}`);
+    console.log('! NOTE: New data will not be written to this file.\n  To save new data, start a new map or change location.');
 
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
@@ -209,7 +208,7 @@ app.get('/list-save-files', (req, res) => {
   });
 });
 
-// Start the HTTP server
+// Start the HTTP server for saving data
 server.listen(port, () => {
   console.log(`[SERVER] Data-saving HTTP server running on http://localhost:${port}`);
 });

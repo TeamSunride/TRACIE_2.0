@@ -12,30 +12,32 @@ import Point from 'ol/geom/Point';
 import { Style, Icon, Circle as CircleStyle, Fill, Stroke} from 'ol/style';
 
 
-// ==== SET UP EVERYTHING ====
-let groundAltitude = 0;
-let flightStartTime = new Date(); // Reset timestamp
-let currentFileName = '';
-let fileTimestamp = '';
-let isNewFlight = true;
-//const launchTime = Date.now() / 1000;      //in seconds. need apply formatTimeLater use for onHover: T+ X seconds
-
-//=== MAP INITIALISATION ===
-const token = 'pk.eyJ1Ijoicm9ib3NhbTIwMDMiLCJhIjoiY2x3b3dkZzllMmN4bDJpcGZ3YTM5Y2YzOSJ9.qw98dr1XT293FplEQ-ToYQ';
-const tileurl = `https://api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}@2x.png?access_token=${token}`;
-
+// REPLACE THIS WITH YOUR LOCATION (see launchSiteCoords.txt)
+// This allows you to 'Start New Map' 
 const defaultLocation = {       // Set MRC as default location
   name: 'MRC',
   lon: -1.524257,
   lat: 52.668952,
   zoomSize: 16.8,
   minZoomSize:14,
-  maxZoomSize: 17,
+  maxZoomSize: 20,
 };
+
+
+// ==== SET UP EVERYTHING ====
+let groundAltitude = 0;
+let flightStartTime = new Date();
+let currentFileName = '';
+let fileTimestamp = '';
+let isNewFlight = true;
 let currentLocation = defaultLocation;
 let centerCoords = fromLonLat([defaultLocation.lon, defaultLocation.lat]);
 let dotStyleSet = getDotStyleSet(defaultLocation.name);
+//const launchTime = Date.now() / 1000;      //in seconds. need apply formatTimeLater use for onHover: T+ X seconds
 
+//=== MAP INITIALISATION ===
+const token = 'pk.eyJ1Ijoicm9ib3NhbTIwMDMiLCJhIjoiY2x3b3dkZzllMmN4bDJpcGZ3YTM5Y2YzOSJ9.qw98dr1XT293FplEQ-ToYQ';
+const tileurl = `https://api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}@2x.png?access_token=${token}`;
 
 // ==== PLOTTING STUFF ON MAP ====
 //=== Static Marker Features ====
@@ -656,7 +658,7 @@ window.addEventListener('unload', saveDataToBackend);         // Last resort
 //window.addEventListener('pagehide', saveDataToBackend);     // For mobile/bfcache
 
 // ==== AUTOMATIC SAVING ====
-const saveInterval = 10000;           // Save log file every 30 seconds (ms)
+const saveInterval = 30000;           // Save log file every 30 seconds (ms)
 setInterval(() => {
   saveDataToBackend();
 }, saveInterval);
