@@ -30,6 +30,9 @@ let flightStartTime = new Date();
 let currentFileName = '';
 let fileTimestamp = '';
 let isNewFlight = true;
+let autosaveEnabled = false;
+let autosaveIntervalId = null;
+const autosaveInterval = 30 *1000;   // 30s secs
 let currentLocation = defaultLocation;
 let centerCoords = fromLonLat([defaultLocation.lon, defaultLocation.lat]);
 let dotStyleSet = getDotStyleSet(defaultLocation.name);
@@ -147,6 +150,7 @@ locationButton.textContent = `Current Location: ${defaultLocation.name}`;
 createPlotPopup();
 createStartNewMapButton();
 createLoadOldFileButton();
+createAutosaveButton()
 
 
 // === WEBSOCKET SERVER ===
@@ -302,7 +306,7 @@ function createPlotPopup() {                                    // Create popups
   popup.className = 'popup';
   document.body.appendChild(popup);
 
-  let hoverTimeout;
+  let popup_hoverTimeout;
   let isPopupVisible = false;
   
   // Event listener to show/hide the popup
@@ -312,8 +316,8 @@ function createPlotPopup() {                                    // Create popups
     });
 
     if (feature && feature.get('true_altitude') !== undefined && feature.get('timeStamp') !== undefined) {
-      if (hoverTimeout) {                       // Clear any existing timeout to avoid multiple popups
-        clearTimeout(hoverTimeout);
+      if (popup_hoverTimeout) {                       // Clear any existing timeout to avoid multiple popups
+        clearTimeout(popup_hoverTimeout);
       }
 
       hoverTimeout = setTimeout(() => {             //Show the popup immediately (no delay)
@@ -441,7 +445,44 @@ function createLoadOldFileButton() {
       await loadDataFromBackend(selectedFile);
     }
   });
+}
 
+
+function createAutosaveButton() { 
+  const autosaveButton = document.getElementById('autosave-button');
+  updateAutosaveButton();
+
+  autosaveButton.addEventListener('click', () => {
+    autosaveEnabled = !autosaveEnabled;
+    updateAutosaveButton();
+  });
+}
+
+
+function updateAutosaveButton() {
+  const autosaveButton = document.getElementById('autosave-button');
+
+  if (autosaveEnabled) {                                  // Autosave ON
+    autosaveButton.textContent = 'Autosave ON';
+    autosaveButton.style.backgroundColor = '#009024';
+    
+    if (autosaveIntervalId) {                             // Reset time interval
+      clearInterval(autosaveIntervalId);
+    }
+    
+    autosaveIntervalId = setInterval(() => {
+      saveDataToBackend();
+    }, autosaveInterval);
+  }
+  else {                                                  // Autosave OFF
+    autosaveButton.textContent = 'Autosave OFF';
+    autosaveButton.style.backgroundColor = '#800000';
+    
+    if (autosaveIntervalId) {
+      clearInterval(autosaveIntervalId);
+      autosaveIntervalId = null;
+    }
+  }
 }
 
 function updateMapView(currentLocation, map) {              // Update map view. Used by Location Selection Menu, Start-New-Map, & Load-Old-File
@@ -654,11 +695,4 @@ window.onload = function () {                           // Load the save file op
 };
 
 window.addEventListener('beforeunload', saveDataToBackend);   // Save data when the browser is closed or refreshed
-window.addEventListener('unload', saveDataToBackend);         // Last resort
 //window.addEventListener('pagehide', saveDataToBackend);     // For mobile/bfcache
-
-// ==== AUTOMATIC SAVING ====
-const saveInterval = 30000;           // Save log file every 30 seconds (ms)
-setInterval(() => {
-  saveDataToBackend();
-}, saveInterval);

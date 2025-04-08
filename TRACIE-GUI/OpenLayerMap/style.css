@@ -82,6 +82,8 @@ html, body {
 /* Load File Menu */
 #file-selector {                      /* Container of LOAD FILE text*/
   position: absolute;
+  height: 20px;
+  width: 120px;
   bottom: 10px;
   right: 10px;
   z-index: 1000;
@@ -90,7 +92,6 @@ html, body {
   border-radius: 5px;
   border: 2px rgba(58, 127, 255, 0.5);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-  width: 120px;
 }
 
 #file-button {                        /* Button with LOAD FILE text*/
@@ -101,6 +102,7 @@ html, body {
   font-size: 14px;
   display: flex;
   justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
 }
@@ -108,8 +110,8 @@ html, body {
 #file-dropdown {                      /* Dropdown container for START-NEW-MAP & LOAD-OLD-FILE*/
   display: none;
   position: absolute;
-  bottom: 35px;       /* Position above the button */
-  right: 0;           /* Align with the right edge of the button */
+  bottom: 35px;
+  right: 0;
   font-family: 'Arial', serif;
   background-color: #f9fdff;
   border: 1px solid #ccc;
@@ -191,6 +193,31 @@ html, body {
   background: #f0f0f0;
 }
 
+/* Autosave Button*/
+#autosave-button {
+  position: absolute;
+  display: flex;
+  height: 20px;
+  width: 100px;
+  bottom: 10px;
+  right: 150px;
+  z-index: 1000;
+  justify-content: center;
+  text-align: center;
+  font-family: 'Arial', serif;
+  font-size: 14px;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;   
+  background: #009024;
+  padding: 5px;
+  border-radius: 5px;
+  border: 4px rgba(255, 255, 255, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  color: rgb(255, 255, 255);
+  white-space: nowrap;
+}
+
 
 #status-message {
   position: fixed;
@@ -202,6 +229,7 @@ html, body {
   transform: translateX(-50%);
   z-index: 1000;
   justify-content: center;
+  align-items: center;
   font-family: 'Arial', serif;
   font-size: 12px;
   background: #b8b8b8;
