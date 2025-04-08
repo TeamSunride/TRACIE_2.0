@@ -150,7 +150,7 @@ locationButton.textContent = `Current Location: ${defaultLocation.name}`;
 createPlotPopup();
 createStartNewMapButton();
 createLoadOldFileButton();
-createAutosaveButton()
+createAutosaveButton();
 
 
 // === WEBSOCKET SERVER ===
@@ -339,8 +339,6 @@ function createPlotPopup() {                                    // Create popups
         popup.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
         popup.innerHTML = `Altitude: ${altitude}m<br>Time: ${timeStamp}`;     
 
-        //TODO update with T +- time popup.innerHTML if prelaunch_time !== 0
-
         // Fade-in/out effect
         setTimeout(() => {
           popup.classList.add('visible');
@@ -447,7 +445,6 @@ function createLoadOldFileButton() {
   });
 }
 
-
 function createAutosaveButton() { 
   const autosaveButton = document.getElementById('autosave-button');
   updateAutosaveButton();
@@ -457,7 +454,6 @@ function createAutosaveButton() {
     updateAutosaveButton();
   });
 }
-
 
 function updateAutosaveButton() {
   const autosaveButton = document.getElementById('autosave-button');
@@ -469,8 +465,7 @@ function updateAutosaveButton() {
     if (autosaveIntervalId) {                             // Reset time interval
       clearInterval(autosaveIntervalId);
     }
-    
-    autosaveIntervalId = setInterval(() => {
+        autosaveIntervalId = setInterval(() => {
       saveDataToBackend();
     }, autosaveInterval);
   }
