@@ -1,15 +1,16 @@
-import { defineConfig } from 'vite';
+//import { defineConfig } from 'vite';
+import { viteSingleFile } from 'vite-plugin-singlefile';
 
-export default defineConfig({
+export default {
   root: ".",          // Vite starts looking from inside OpenLayerMap
   publicDir: "public",
   base: "./",
   build: {
-    rollupOptions: {
-      input: "./index.html",  // HTML entry point
-    },
+    sourcemap: false,
+    input: "./index.html",  // HTML entry point
+},
     outDir: "./dist",  // Output directory (bundled files)
     emptyOutDir: true,  // Clean dist/ before building
-  },
-});
+    plugins: [viteSingleFile()],
+};
 

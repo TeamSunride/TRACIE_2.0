@@ -10,6 +10,7 @@ import XYZ from 'ol/source/XYZ';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import { Style, Icon, Circle as CircleStyle, Fill, Stroke} from 'ol/style';
+import { icons } from './icons';
 
 
 // REPLACE THIS WITH YOUR LOCATION (see launchSiteCoords.txt)
@@ -69,7 +70,7 @@ const jokeVectorSource = new VectorSource({features: jokeRocketMarker});
 const centerMarkerStyle = new Style({
   image: new Icon({
     anchor: [0.5, 1],
-    src: '/icon_assets/centerMarker.png', 
+    src: icons.centerMarker,
     scale: 0.08, 
   })
 });
@@ -666,13 +667,13 @@ function getCurrentTime() {
 function getGraveMarker(deathName) {          //Custom gravestones coming soon...
   switch (deathName) { 
     case 'Boomerang':
-      return '/icon_assets/centerMarker.png';
+      return icons.centerMarker;
       break;
     case 'Shawarma':
-      return '/icon_assets/centerMarker.png';
+      return icons.centerMarker;
       break;
     default:
-      return '/icon_assets/centerMarker.png';
+      return icons.centerMarker;
       break;
   }
 }
