@@ -321,7 +321,7 @@ function createPlotPopup() {                                    // Create popups
         clearTimeout(popup_hoverTimeout);
       }
 
-      hoverTimeout = setTimeout(() => {             //Show the popup immediately (no delay)
+      setTimeout(() => {             //Show the popup immediately (no delay)
         const coordinates = feature.getGeometry().getCoordinates();
         const altitude = feature.get('true_altitude');
         const timeStamp = feature.get('timeStamp');
