@@ -3,6 +3,8 @@
 ## Installation Instructions
 - Clone the repository
 - Install the appropriate VCP drivers for the FTDI chip: https://www.silabs.com/developer-tools/usb-to-uart-bridge-vcp-drivers?tab=downloads
+- Install Node.js: https://nodejs.org/
+- Install Python: https://www.python.org/downloads/
 - Install requirements with `pip install -r requirements.txt` and `npm install`
 - Check you have node.js and npm installed with `node --version` and `npm --version`
 
