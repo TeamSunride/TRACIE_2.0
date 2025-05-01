@@ -19,13 +19,16 @@ log_files/
 .DS_Store
 
 TRACIE-GUI/rubbish/
-TRACIE-GUI/log_files/
 TRACIE-GUI/OpenLayerMap/Helpful_Text/
 TRACIE-GUI/OpenLayerMap/node_modules/
 
 # Ignore all contents of log_files_map & dist but keep the folders
+TRACIE-GUI/log_files/*
+!TRACIE-GUI/log_files/.gitkeep
+
 TRACIE-GUI/OpenLayerMap/log_files_map/*
 !TRACIE-GUI/OpenLayerMap/log_files_map/.gitkeep
+
 TRACIE-GUI/OpenLayerMap/dist/*
 !TRACIE-GUI/OpenLayerMap/dist/.gitkeep
 
