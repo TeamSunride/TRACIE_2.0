@@ -19,10 +19,13 @@ log_files/
 # System files
 .DS_Store
 
+run.sh
+
+
 TRACIE-GUI/rubbish/
 TRACIE-GUI/log_files/
 TRACIE-GUI/OpenLayerMap/log_files_map/*
 TRACIE-GUI/OpenLayerMap/Helpful_Text/
-TRACIE-GUI/OpenLayerMap/dist/
+TRACIE-GUI/OpenLayerMap/dist/*
 TRACIE-GUI/OpenLayerMap/node_modules/
 
