@@ -3,17 +3,31 @@
   "version": "1.0.0",
   "type": "module",
   "description": "- Clone the repository\r - Install the appropriate VCP drivers for the FTDI chip: https://www.silabs.com/developer-tools/usb-to-uart-bridge-vcp-drivers?tab=downloads\r - Install requirements with `pip install -r requirements.txt`",
+  "keywords": [],
+  "homepage": "https://github.com/TeamSunride/TRACIE_2.0#readme",
+  "bugs": {
+    "url": "https://github.com/TeamSunride/TRACIE_2.0/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TeamSunride/TRACIE_2.0.git"
+  },
+  "license": "ISC",
+  "author": "Nicole Yuen",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.21.2",
     "serialport": "^13.0.0",
-    "ws": "^8.18.1"
+    "ws": "^8.18.1",
+    "ol": "^10.5.0"
+  },
+  "devDependencies": {
+    "vite": "^6.2.4",
+    "vite-plugin-singlefile": "^0.13.5",
+    "rollup": ">=4.22.4"
   }
 }
