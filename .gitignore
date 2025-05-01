@@ -30,6 +30,4 @@ TRACIE-GUI/OpenLayerMap/log_files_map/*
 !TRACIE-GUI/OpenLayerMap/log_files_map/.gitkeep
 
 TRACIE-GUI/OpenLayerMap/dist/*
-!TRACIE-GUI/OpenLayerMap/dist/.gitkeep
-
 
