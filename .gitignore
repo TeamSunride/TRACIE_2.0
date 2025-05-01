@@ -14,18 +14,19 @@ log_files/
 
 # IDE/Editor
 .vscode/
-.idea/
 
 # System files
 .DS_Store
 
-run.sh
-
-
 TRACIE-GUI/rubbish/
 TRACIE-GUI/log_files/
-TRACIE-GUI/OpenLayerMap/log_files_map/*
 TRACIE-GUI/OpenLayerMap/Helpful_Text/
-TRACIE-GUI/OpenLayerMap/dist/*
 TRACIE-GUI/OpenLayerMap/node_modules/
+
+# Ignore all contents of log_files_map & dist but keep the folders
+TRACIE-GUI/OpenLayerMap/log_files_map/*
+!TRACIE-GUI/OpenLayerMap/log_files_map/.gitkeep
+TRACIE-GUI/OpenLayerMap/dist/*
+!TRACIE-GUI/OpenLayerMap/dist/.gitkeep
+
 
