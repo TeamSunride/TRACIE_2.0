@@ -204,7 +204,8 @@ app.get('/list-save-files', (req, res) => {
       console.error('Error reading data folder:', err);
       return res.status(500).send('Failed to list save files');
     }
-    res.json(files);
+    const filteredFiles = files.filter(file => file !== '.gitkeep');    // Don't show .gitkeep"
+    res.json(filteredFiles);
   });
 });
 
