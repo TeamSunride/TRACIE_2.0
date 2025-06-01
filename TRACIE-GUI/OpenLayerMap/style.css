@@ -218,6 +218,31 @@ html, body {
   white-space: nowrap;
 }
 
+/* Zoom level indicator*/
+#zoom-show {
+  position: absolute;
+  display: flex;
+  height: 20px;
+  width: 100px;
+  bottom: 10px;
+  left: 20px;
+  z-index: 1000;
+  justify-content: center;
+  text-align: center;
+  font-family: 'Arial', serif;
+  font-size: 14px;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;   
+
+  background: #ffffff;
+  padding: 5px;
+  border-radius: 5px;
+  border: 4px rgba(255, 255, 255, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  color: rgb(0, 0, 0);
+  white-space: nowrap;
+}
 
 #status-message {
   position: fixed;

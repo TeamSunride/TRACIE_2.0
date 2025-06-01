@@ -2,7 +2,6 @@ import './style.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile.js';
-import ImageLayer from 'ol/layer/Image.js'
 import { fromLonLat } from 'ol/proj.js';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
@@ -11,6 +10,7 @@ import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import { Style, Icon, Circle as CircleStyle, Fill, Stroke} from 'ol/style';
 import { icons } from './icons';
+import { Mojave_Layers /* Mach_X_Layers MRC_Layers EARS_Layers */} from './offlineMap';
 
 
 // REPLACE THIS WITH YOUR LOCATION (see launchSiteCoords.txt)
@@ -34,6 +34,7 @@ let isNewFlight = true;
 let autosaveEnabled = false;
 let autosaveIntervalId = null;
 const autosaveInterval = 30 *1000;   // 30s secs
+let offlineMapEnabled = false;       // Offline maps inactive unless offline
 let currentLocation = defaultLocation;
 let centerCoords = fromLonLat([defaultLocation.lon, defaultLocation.lat]);
 let dotStyleSet = getDotStyleSet(defaultLocation.name);
@@ -106,7 +107,15 @@ jokeRocketMarker.forEach(marker => {
   marker.setStyle(jokeMarkerStyle);
 });
 
-//---- Vector Layers ----
+// === LAYERS ===
+const onlineLayer = new TileLayer({
+  source: new XYZ({
+    url: tileurl,
+  }),
+  preload: 30,
+  cacheSize: 512
+});
+
 const centerVectorLayer = new VectorLayer({
   source: centerVectorSource,
   style: centerMarkerStyle,
@@ -121,20 +130,23 @@ const jokeVectorLayer = new VectorLayer({
   source: jokeVectorSource,
 });
 
+// ==== SET Z-INDEXES ==== 
+rocketVectorLayer.setZIndex(2);            // Layers from top to bottom
+centerVectorLayer.setZIndex(1);
+jokeVectorLayer.setZIndex(1);
+
 // ==== MAP ====
 const map = new Map({
   target: 'map',
   layers: [
-    new TileLayer({
-      source: new XYZ({
-        url: tileurl,
-      }),
-      preload: 30,
-      cacheSize: 512
-    }),
+    onlineLayer,
     centerVectorLayer,
     rocketVectorLayer,
     jokeVectorLayer,
+    ...Mojave_Layers,
+    //...Mach_X_Layers,
+    //...MRC_Layers,
+    //...EARS_Layers,
   ],
   view: new View({
     center: fromLonLat([currentLocation.lon, currentLocation.lat]),
@@ -152,7 +164,7 @@ createPlotPopup();
 createStartNewMapButton();
 createLoadOldFileButton();
 createAutosaveButton();
-
+createZoomLevelShow();
 
 // === WEBSOCKET SERVER ===
 function connectWebSocket() {       //Everything that matters with getting data from server.js
@@ -481,6 +493,19 @@ function updateAutosaveButton() {
   }
 }
 
+function createZoomLevelShow() { 
+  const zoomLevelShow = document.getElementById('zoom-show');
+  updateZoomLevelShow();
+}
+
+function updateZoomLevelShow() { 
+  const zoomLevelShow = document.getElementById('zoom-show');
+  const currentZoom = map.getView().getZoom();
+  zoomLevelShow.textContent = `Zoom: ${currentZoom.toFixed(2)}`;
+}
+
+map.getView().on('change:resolution', updateZoomLevelShow);
+
 function updateMapView(currentLocation, map) {              // Update map view. Used by Location Selection Menu, Start-New-Map, & Load-Old-File
   const newCenterCoords = fromLonLat([currentLocation.lon, currentLocation.lat]);
   map.getView().setCenter(newCenterCoords);                                           // Update the map view, center marker, dotsStyle, & Location Select button text
@@ -683,8 +708,31 @@ function extractISODateTime(filename) {
   return filename.split('_').slice(1).join('_').replace('.json', '');
 }
 
+function updateOfflineMapEnabled(boolean) { 
+  offlineMapEnabled = boolean;
+}
+
+function checkConnectivity() {
+  if (!navigator.onLine) {                          // If offline
+    updateOfflineMapEnabled(true);                                    // Set offlineLayers array (containing each locaion) active so they can be visible
+    map.removeLayer(onlineLayer);                                    // Remove it so the console doesn't scream at you looking for tiles
+    //toggleLocation('Mojave', true); 
+    console.log('Switched to offline map');
+    console.log('updateOfflineMapEnabled: ', offlineMapEnabled);
+  } else {                                          // If online
+    updateOfflineMapEnabled(false);                                  // Disable offline maps
+    if (!map.getLayers().getArray().includes(onlineLayer)) { 
+      map.addLayer(onlineLayer);                                    // If onlineMap not in layers list, add it
+    }
+    //toggleLocation('Mojave', false);                    //  DEBUG Hide all Mojave layers
+    console.log('ONLINE MAP');
+    console.log('updateOfflineEnabled: ', offlineMapEnabled);
+  }
+}
+
 
 window.onload = function () {                           // Load the save file options when the map is opened
+  checkConnectivity();
   populateFileList();                                                                                                       //console.log('[INIT] Page loaded and dropdown populated');
   updateConnectionStatus('grey');                      // TRACIE connection status until good package received
   generateNewLogFile();
