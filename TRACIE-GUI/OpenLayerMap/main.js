@@ -361,7 +361,7 @@ function createPlotPopup() {
 
           popup.style.display = 'block';
           popup.style.left = `${pixel[0]}px`;
-          popup.style.top = `${pixel[1] + 30}px`;
+          popup.style.top = `${pixel[1] + 60}px`;
           popup.style.padding = `5px`
         }
         else {          // Skip if neither rocketMarker or a jokeMarker
