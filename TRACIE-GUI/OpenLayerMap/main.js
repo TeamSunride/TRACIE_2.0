@@ -12,10 +12,7 @@ import { Style, Icon, Circle as CircleStyle, Fill, Stroke} from 'ol/style';
 import { icons } from './icons';
 import { Mojave_Layers /* Mach_X_Layers MRC_Layers EARS_Layers */} from './offlineMap';
 
-
-// REPLACE THIS WITH YOUR LOCATION (see launchSiteCoords.txt)
-// This allows you to 'Start New Map' 
-const defaultLocation = {       // Set MRC as default location
+const defaultLocation = {       // Set MRC as default location on start
   name: 'MRC',
   lon: -1.524257,
   lat: 52.668952,
@@ -421,7 +418,6 @@ function createStartNewMapButton() {
   document.getElementById('start-new-map-button').addEventListener('click', () => {
     rocketVectorSource.clear();         // Clear the current map, ground altitude, location => MRC
     groundAltitude = 0;
-    currentLocation = defaultLocation;
     updateMapView(currentLocation, map);        // Update map center and viewds
     generateNewLogFile();
   });
