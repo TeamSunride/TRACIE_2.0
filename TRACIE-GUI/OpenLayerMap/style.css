@@ -61,7 +61,7 @@ html, body {
 /* Plot popups */
 .popup {
   position: absolute;
-  background-color: rgb(255, 245, 202);
+  background-color: #fffef0;
   padding: 7px;
   border: 1px solid #ccc;
   border-radius: 4px;
