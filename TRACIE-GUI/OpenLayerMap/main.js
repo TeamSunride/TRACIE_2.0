@@ -48,7 +48,6 @@ let centerMarker = new Feature({geometry: new Point(centerCoords)});
 const jokeCoords = [                      //Graves. Add KAlpha.
   [-5.693629, 55.436442, 'Boomerang','Boomerang Grave'],
   [-5.698946, 55.432405, 'Shawarma', 'Shawarma Grave'],
-  
   [-117.843853, 35.331388, 'Fintans_Corner', 'Fintan\'s Corner'],
 ];
 

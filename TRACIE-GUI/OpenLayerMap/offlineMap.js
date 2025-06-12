@@ -32,13 +32,14 @@ const MACH_X = {
 
 const Mojave = {                        // Each location as an object
     name: "Mojave",
-    layerMin: 13,
+    layerMin: 12,
     layerMax : 16,
-    extents : {
-        extent13: [-13128784, 4205183, -13101305, 4219324],         // Extents in Web Mercator 
-        extent14: [-13121590, 4208088, -13107850, 4215158],
-        extent15: [-13118155, 4209855, -13111285, 4213391],
-        extent16: [-13116437, 4210739, -13113002, 4212507],
+    extents : {                          // In web mercator
+        extent12: [-13194658.0652, 4139616.1298, -13032520.1392, 4270744.0700],       
+        extent13: [-13137914.4843, 4187662.9390, -13088629.3423, 4234362.6309],
+        extent14: [-13127113.6819, 4200418.7942, -13102347.0714, 4223648.1668],
+        extent15: [-13121523.1318, 4208011.9415, -13107833.1230, 4215213.6335],
+        extent16: [-13116437.0000, 4210739.0000, -13113002.0000, 4212507.0000],
     }
 };
 
@@ -59,7 +60,7 @@ function createOfflineLayerArray(dataArray) {
         const layer = createImageLayer(
             locationName, 
             zoomLevel, 
-            dataArray.extents[`extent${zoomLevel}`]         // E.g. Takes argument Mojave.extents['extent13']
+            dataArray.extents[`extent${zoomLevel}`]        // E.g. Takes argument Mojave.extents['extent13']
         );
         outputArray.push(layer);
     }
@@ -72,7 +73,7 @@ function createImageLayer(locationName, zoomLevel, extentNum) {           // Cre
         source: new Static({
             url: `./offline_map/${locationName}/zoom${zoomLevel}.png`,
             projection: 'EPSG:3857',
-            imageExtent: extentNum,//convertExtent(extentNum),
+            imageExtent: extentNum,
         }), 
     })
 }
