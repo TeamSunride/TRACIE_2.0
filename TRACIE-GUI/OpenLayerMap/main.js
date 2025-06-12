@@ -48,7 +48,8 @@ let centerMarker = new Feature({geometry: new Point(centerCoords)});
 const jokeCoords = [                      //Graves. Add KAlpha.
   [-5.693629, 55.436442, 'Boomerang','Boomerang Grave'],
   [-5.698946, 55.432405, 'Shawarma', 'Shawarma Grave'],
-  [-117.84407552889638, 35.331270668266015, 'Fintans_Corner', 'Fintan\'s Corner'],
+  
+  [-117.843853, 35.331388, 'Fintans_Corner', 'Fintan\'s Corner'],
 ];
 
 const jokeRocketMarker = jokeCoords.map(coord => {
@@ -100,7 +101,7 @@ jokeRocketMarker.forEach(marker => {
   const jokeMarkerStyle = new Style({
     image: new Icon({
       anchor: [0.5, 1],
-      src: getGraveMarker(jokeName),   // Get image by jokeName
+      src: getJokeMarker(jokeName),   // Get image by jokeName
       scale: 0.05,
     }),
   });
@@ -382,93 +383,6 @@ function createPlotPopup() {
         }, 200);
       }
     }
-  });
-}
-/*
-function createPlotPopup() {                                    // Create popups over plot features
-  const existingPopup = document.querySelector('.popup');
-  if (existingPopup) {
-    existingPopup.remove();
-  }
-  
-  const popup = document.createElement('div');
-  popup.className = 'popup';
-  document.body.appendChild(popup);
-
-  let popup_hoverTimeout;
-  let isPopupVisible = false;
-  
-  // Event listener to show/hide the popup
-  map.on('pointermove', function (event) {
-    const feature = map.forEachFeatureAtPixel(event.pixel, function (feature) {
-      return feature;
-    });
-
-    if (feature && feature.get('true_altitude') !== undefined && feature.get('timeStamp') !== undefined) {
-      if (popup_hoverTimeout) {                       // Clear any existing timeout to avoid multiple popups
-        clearTimeout(popup_hoverTimeout);
-      }
-
-      setTimeout(() => {             //Show the popup immediately (no delay)
-        const coordinates = feature.getGeometry().getCoordinates();
-        const altitude = feature.get('true_altitude');
-        const timeStamp = feature.get('timeStamp');
-
-        const pixel = map.getPixelFromCoordinate(coordinates);             // Convert map coordinates to pixel coordinates
-        const markerRadius = feature.getStyle().getImage().getRadius();    // Get the radius of the marker
-
-        const popupWidth = popup.offsetWidth;
-        const popupHeight = popup.offsetHeight;                            // Center the popup to be above marker, accounting for its radius
-        const offsetX = -popupWidth / 2;
-        const offsetY = -popupHeight - markerRadius - 10;
-
-        popup.style.display = 'block';                                     // Update the popup's position and content
-        popup.style.left = `${pixel[0]}px`;
-        popup.style.top = `${pixel[1]}px`;
-        popup.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-        popup.innerHTML = `Altitude: ${altitude}m<br>Time: ${timeStamp}`;     
-
-        // Fade-in/out effect
-        setTimeout(() => {
-          popup.classList.add('visible');
-        }, 10);                                   // Small delay to ensure the display property is applied first
-        isPopupVisible = true;}, 0);             // No delay before showing the popup
-    }  
-    else if (1>=2) { 
-       if (popup_hoverTimeout) {                       // Clear any existing timeout to avoid multiple popups
-        clearTimeout(popup_hoverTimeout);
-      }
-
-      setTimeout(() => {             //Show the popup immediately (no delay)
-        const coordinates = feature.getGeometry().getCoordinates();
-        const jokeName = feature.jokeName;
-
-        const pixel = map.getPixelFromCoordinate(coordinates);             // Convert map coordinates to pixel coordinates
-
-        const popupWidth = popup.offsetWidth;
-        const popupHeight = popup.offsetHeight;                            // Center the popup to be above marker, accounting for its radius
-        const offsetX = -popupWidth / 2;
-        const offsetY = -popupHeight - markerRadius - 10;
-
-        popup.style.display = 'block';                                     // Update the popup's position and content
-        popup.style.left = `${pixel[0]}px`;
-        popup.style.top = `${pixel[1]}px`;
-        popup.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-        popup.innerHTML = `${jokeName}`;     
-
-        // Fade-in/out effect
-        setTimeout(() => {
-          popup.classList.add('visible');
-        }, 10);                                   // Small delay to ensure the display property is applied first
-        isPopupVisible = true;}, 0);             // No delay before showing the popup
-    }
-    else {
-      if (isPopupVisible) {                       // If no hover, hide the popup immediately
-        popup.classList.remove('visible');
-        setTimeout(() => {
-          popup.style.display = 'none';
-          isPopupVisible = false;}, 200);}       // Match the CSS transition (0.2 seconds)
-    }
     map.on('pointermove', updateCursor);
   });
 
@@ -479,7 +393,6 @@ function createPlotPopup() {                                    // Create popups
     map.getTargetElement().style.cursor = feature ? 'pointer' : '';
   }
 }
-*/
 
 function createLocationButton(map) {                          // Location Selection Menu
   const locationButton = document.getElementById('location-button');
@@ -794,7 +707,7 @@ function getCurrentTime() {
   return `${hours}:${minutes}:${seconds}`;
 }
 
-function getGraveMarker(jokeName) {          //Custom gravestones coming soon...
+function getJokeMarker(jokeName) {          //Custom gravestones coming soon...
   if (jokeName == `Fintans_Corner`) { 
     return `./icon_assets/dangerous_bend.png`;
   }
