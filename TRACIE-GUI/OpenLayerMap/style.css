@@ -61,7 +61,6 @@ html, body {
 /* Plot popups */
 .popup {
   position: absolute;
-  background-color: #fffef0;
   padding: 7px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -83,7 +82,7 @@ html, body {
 #file-selector {                      /* Container of LOAD FILE text*/
   position: absolute;
   height: 20px;
-  width: 120px;
+  min-width: 50px;
   bottom: 10px;
   right: 10px;
   z-index: 1000;
@@ -200,7 +199,7 @@ html, body {
   height: 20px;
   width: 100px;
   bottom: 10px;
-  right: 150px;
+  right: 130px;
   z-index: 1000;
   justify-content: center;
   text-align: center;
@@ -222,27 +221,73 @@ html, body {
 #zoom-show {
   position: absolute;
   display: flex;
-  height: 20px;
-  width: 100px;
-  bottom: 10px;
-  left: 20px;
+  height: 17px;
+  width: 80px;
+  bottom: 45px;
+  left: 10px;
   z-index: 1000;
   justify-content: center;
   text-align: center;
   font-family: 'Arial', serif;
   font-size: 14px;
-  cursor: pointer;
   justify-content: center;
   align-items: center;   
 
   background: #ffffff;
   padding: 5px;
-  border-radius: 5px;
+  border-radius: 2px;
   border: 4px rgba(255, 255, 255, 1);
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   color: rgb(0, 0, 0);
   white-space: nowrap;
 }
+
+#coord-wrapper {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+  gap: 6px;
+  display: flex;
+  align-items: center;
+  z-index: 1000;
+}
+
+#coord-show {
+  display: flex;
+  height: 17px;
+  min-width: 130px;
+  justify-content: center;
+  text-align: center;
+  font-family: 'Arial', serif;
+  font-size: 14px;
+  align-items: center;   
+  background: #ffffff;
+  padding: 5px;
+  border-radius: 2px;
+  border: 4px rgba(255, 255, 255, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+}
+
+#copy-button {
+  display: flex;
+  height: 27px;
+  width: 60px;
+  left: 10px;
+  justify-content: center;
+  align-items: center;   
+  font-family: 'Arial', serif;
+  font-size: 14px;
+  cursor: pointer;
+  visibility: hidden;
+  background: #559fff;
+  padding: 5px;
+  border-radius: 5px;
+  border: 4px rgba(255, 255, 255, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+}
+
 
 #status-message {
   position: fixed;

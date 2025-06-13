@@ -27,6 +27,7 @@ let groundAltitude = 0;
 let flightStartTime = new Date();
 let currentFileName = '';
 let fileTimestamp = '';
+let selectedPlotCoords = '';
 let isNewFlight = true;
 let autosaveEnabled = false;
 let autosaveIntervalId = null;
@@ -165,6 +166,7 @@ createStartNewMapButton();
 createLoadOldFileButton();
 createAutosaveButton();
 createZoomLevelShow();
+createCoordSelectShow();
 
 // === WEBSOCKET SERVER ===
 function connectWebSocket() {       //Everything that matters with getting data from server.js
@@ -228,6 +230,8 @@ function push2rocketCoords(data) {
 
     const rocketMarker = new Feature({                      // Create new feature for rocket marker
       geometry: new Point(fromLonLat([lon, lat])),});
+    rocketMarker.set('longitude', lat);
+    rocketMarker.set('latitude', lon);
     rocketMarker.set('raw_altitude', alt.toFixed(2));
     rocketMarker.set('true_altitude', trueAltitude.toFixed(2));      // Set altitude & timeStamp property
     rocketMarker.set('timeStamp', coordTime);
@@ -314,14 +318,14 @@ function createPlotPopup() {
   if (existingPopup) {
     existingPopup.remove();
   }
-  
+
   const popup = document.createElement('div');
   popup.className = 'popup';
   document.body.appendChild(popup);
 
   let popup_hoverTimeout;
   let isPopupVisible = false;
-  
+
   map.on('pointermove', function (event) {
     const feature = map.forEachFeatureAtPixel(event.pixel, function (feature) {
       return feature;
@@ -340,8 +344,8 @@ function createPlotPopup() {
         if (feature.get('true_altitude') !== undefined && feature.get('timeStamp') !== undefined) {
           const altitude = feature.get('true_altitude');
           const timeStamp = feature.get('timeStamp');
-          const markerRadius = feature.getStyle().getImage().getRadius();    // Get the radius of the marker
-          
+          const markerRadius = feature.getStyle().getImage().getRadius(); // Get the radius of the marker
+
           const popupWidth = popup.offsetWidth;
           const popupHeight = popup.offsetHeight;
           const offsetX = -popupWidth / 2;
@@ -352,7 +356,8 @@ function createPlotPopup() {
           popup.style.left = `${pixel[0]}px`;
           popup.style.top = `${pixel[1]}px`;
           popup.style.transform = `translate(${offsetX}px, ${offsetY}px)`;
-        } 
+        popup.style.backgroundColor = '#fffef0';
+        }
         // Handle joke markers
         else if (feature.get('jokeName') !== undefined) {
           const jokeDesc = feature.get('jokeDesc');
@@ -362,18 +367,18 @@ function createPlotPopup() {
           popup.style.display = 'block';
           popup.style.left = `${pixel[0]}px`;
           popup.style.top = `${pixel[1] + 60}px`;
-          popup.style.padding = `5px`
+          popup.style.padding = `5px`;
+        } else {
+          return; // Skip if neither rocketMarker nor jokeMarker
         }
-        else {          // Skip if neither rocketMarker or a jokeMarker
-          return;
-        }
+
         setTimeout(() => {
           popup.classList.add('visible');
         }, 10);
+
         isPopupVisible = true;
       }, 0);
-    }
-    else {
+    } else {
       if (isPopupVisible) {
         popup.classList.remove('visible');
         setTimeout(() => {
@@ -382,8 +387,21 @@ function createPlotPopup() {
         }, 200);
       }
     }
-    map.on('pointermove', updateCursor);
   });
+
+  map.on('click', function (event) {
+    const feature = map.forEachFeatureAtPixel(event.pixel, function (feature) {
+      return feature;
+    });
+
+    if (feature && feature.get('true_altitude') !== undefined && feature.get('timeStamp') !== undefined) {
+      selectedPlotCoords = `${feature.get('longitude')}, ${feature.get('latitude')}`;
+      console.log('Plot coords = ', selectedPlotCoords);
+      updateCoordSelectShow();
+    }
+  });
+
+  map.on('pointermove', updateCursor);
 
   function updateCursor(event) {
     const feature = map.forEachFeatureAtPixel(event.pixel, function (feature) {
@@ -522,6 +540,51 @@ function updateZoomLevelShow() {
 }
 
 map.getView().on('change:resolution', updateZoomLevelShow);
+
+function createCoordSelectShow() { 
+  const coordWrapper = document.getElementById('coord-wrapper');
+  const coordSelectShow = document.getElementById('coord-show');
+  const copyButton = document.getElementById('copy-button');
+  copyButton.addEventListener('click', copyText);
+  updateCoordSelectShow();
+}
+
+function updateCoordSelectShow() { 
+  const coordWrapper = document.getElementById('coord-wrapper');
+  const coordSelectShow = document.getElementById('coord-show');
+  const copyButton = document.getElementById('copy-button');
+  let plotCoords = null;
+  if (selectedPlotCoords == '') { 
+    plotCoords = 'Click on a plot to view its coordinates';
+    coordSelectShow.style.fontStyle = 'italic';
+    copyButton.style.visibility = 'hidden';
+  }
+  else { 
+    plotCoords = selectedPlotCoords;
+    coordSelectShow.style.fontStyle = 'normal';
+    copyButton.style.visibility = 'visible';
+    copyButton.textContent= 'Copy';
+    copyButton.style.backgroundColor = '#78b2ff';
+  }
+  coordSelectShow.textContent = plotCoords;
+}
+
+function copyText() {
+  const copyButton = document.getElementById('copy-button');
+  const coordShow = document.getElementById("coord-show");
+  const textToCopy = coordShow.textContent;
+
+  if (textToCopy !== 'Click on a plot to view its coordinates') {
+    navigator.clipboard.writeText(textToCopy);
+    copyButton.textContent='Copied';
+    copyButton.style.backgroundColor = '#6ae689';
+
+  }
+  else { 
+    return;
+  }
+}
+
 
 function updateMapView(currentLocation, map) {              // Update map view. Used by Location Selection Menu, Start-New-Map, & Load-Old-File
   const newCenterCoords = fromLonLat([currentLocation.lon, currentLocation.lat]);
