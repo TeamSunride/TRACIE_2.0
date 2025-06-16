@@ -1,5 +1,6 @@
 import ImageLayer from 'ol/layer/Image.js'
 import Static from 'ol/source/ImageStatic';
+import LayerGroup from 'ol/layer/Group.js';
 
 /*
 const MRC = {
@@ -55,18 +56,30 @@ export const Mojave_Layers = createOfflineLayerArray(Mojave);
 // ==== FUNCTIONS ====
 function createOfflineLayerArray(dataArray) {
     const locationName = dataArray.name;
-    const outputArray = [];
+    const layers = [];
+    //const outputArray = [];
     for (let zoomLevel = dataArray.layerMin; zoomLevel <= dataArray.layerMax; zoomLevel++) {
         const layer = createImageLayer(
             locationName, 
             zoomLevel, 
             dataArray.extents[`extent${zoomLevel}`]        // E.g. Takes argument Mojave.extents['extent13']
         );
+        layers.push(layer);
+    }
+    // Wrap all layers in a LayerGroup
+    const layerGroup = new LayerGroup({
+        layers: layers,
+    });
+    console.log(layerGroup);
+    return layerGroup; // Returns a LayerGroup instead of an array
+}
+        /*
         outputArray.push(layer);
     }
     console.log(outputArray);
     return outputArray;
 }
+*/
 
 function createImageLayer(locationName, zoomLevel, extentNum) {           // Create a SINGLE ImageLayer 
     return new ImageLayer({

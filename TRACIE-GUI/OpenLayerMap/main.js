@@ -11,6 +11,7 @@ import Point from 'ol/geom/Point';
 import { Style, Icon, Circle as CircleStyle, Fill, Stroke} from 'ol/style';
 import { icons } from './icons';
 import { Mojave_Layers /* Mach_X_Layers MRC_Layers EARS_Layers */} from './offlineMap';
+import LayerGroup from 'ol/layer/Group.js';
 
 const defaultLocation = {       // Set MRC as default location on start
   name: 'MRC',
@@ -144,7 +145,8 @@ const map = new Map({
     centerVectorLayer,
     rocketVectorLayer,
     jokeVectorLayer,
-    ...Mojave_Layers,
+    Mojave_Layers,
+    //...Mojave_Layers,
     //...Mach_X_Layers,
     //...MRC_Layers,
     //...EARS_Layers,
@@ -578,13 +580,11 @@ function copyText() {
     navigator.clipboard.writeText(textToCopy);
     copyButton.textContent='Copied';
     copyButton.style.backgroundColor = '#6ae689';
-
   }
   else { 
     return;
   }
 }
-
 
 function updateMapView(currentLocation, map) {              // Update map view. Used by Location Selection Menu, Start-New-Map, & Load-Old-File
   const newCenterCoords = fromLonLat([currentLocation.lon, currentLocation.lat]);
@@ -790,21 +790,29 @@ function updateOfflineMapEnabled(boolean) {
 function checkConnectivity() {
   if (!navigator.onLine) {                          // If offline
     updateOfflineMapEnabled(true);                                    // Set offlineLayers array (containing each locaion) active so they can be visible
-    map.removeLayer(onlineLayer);                                    // Remove it so the console doesn't scream at you looking for tiles
-    //toggleLocation('Mojave', true); 
-    console.log('Switched to offline map');
-    console.log('updateOfflineMapEnabled: ', offlineMapEnabled);
-  } else {                                          // If online
+    //toggleLocation(currentLocation, true); 
+    onlineLayer.setVisible(false);
+    Mojave_Layers.setVisible(true);
+    console.log('OFFLINE MAP');
+  }
+  else {                                          // If online
     updateOfflineMapEnabled(false);                                  // Disable offline maps
-    if (!map.getLayers().getArray().includes(onlineLayer)) { 
-      map.addLayer(onlineLayer);                                    // If onlineMap not in layers list, add it
-    }
-    //toggleLocation('Mojave', false);                    //  DEBUG Hide all Mojave layers
+
+    onlineLayer.setVisible(true);
+    Mojave_Layers.setVisible(false);
+    //toggleLocation(currentLocation, false);                    //  DEBUG Hide all Mojave layers
     console.log('ONLINE MAP');
-    console.log('updateOfflineEnabled: ', offlineMapEnabled);
   }
 }
 
+// NEW toggle when on
+/*
+function toggleLocation(locationName, isVisible) {
+  const locationLayer = 
+
+  locationLayers?.forEach(layer => layer.setVisible(isVisible));
+}
+  */
 
 window.onload = function () {                           // Load the save file options when the map is opened
   checkConnectivity();
