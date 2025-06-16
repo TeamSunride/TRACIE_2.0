@@ -32,7 +32,7 @@ let selectedPlotCoords = '';
 let isNewFlight = true;
 let autosaveEnabled = false;
 let autosaveIntervalId = null;
-const autosaveInterval = 30 *1000;   // 30s secs
+const autosaveInterval = 5 *1000;   // 30s secs   CHANGE TO 5s
 let offlineMapEnabled = false;       // Offline maps inactive unless offline
 let currentLocation = defaultLocation;
 let centerCoords = fromLonLat([currentLocation.lon, currentLocation.lat]);
@@ -145,11 +145,10 @@ const map = new Map({
     centerVectorLayer,
     rocketVectorLayer,
     jokeVectorLayer,
-    Mojave_Layers,
-    //...Mojave_Layers,
-    //...Mach_X_Layers,
-    //...MRC_Layers,
-    //...EARS_Layers,
+    Mojave_Layers,      // Layer groups
+    //Mach_X_Layers,
+    //MRC_Layers,
+    //EARS_Layers,
   ],
   view: new View({
     center: fromLonLat([currentLocation.lon, currentLocation.lat]),
@@ -278,10 +277,10 @@ function getDotStyleSet(location) {
   ]
   //MOJAVE COLOR PALETTE        better visibility over light background
   const dotStyleSetMojave = [
-    { color: 'hsl(240, 5%, 40%)', radius: 3},
-    { color: 'hsl(210, 30%, 50%)', radius: 3},  
-    { color: 'hsl(215, 100%, 50%)', radius: 4},  
-    { color: 'hsl(240, 100%, 35%)', radius: 5},
+    { color: 'hsl(225, 100%, 64.00%)', radius: 3},
+    { color: 'hsl(221, 100%, 50%)', radius: 3},  
+    { color: 'hsl(240, 100%, 65%)', radius: 4},  
+    { color: 'hsl(240, 70%, 50%)', radius: 5},
   ]
 
   if (location === 'Mojave') { 
@@ -438,11 +437,13 @@ function createLocationButton(map) {                          // Location Select
       centerCoords = fromLonLat([newLocation.lon, newLocation.lat]);
       
       if (newLocation.name !== currentLocation.name) { 
+        saveDataToBackend();
+        rocketVectorSource.clear(); 
         currentLocation = newLocation;
         generateNewLogFile();
       }
       else {
-        isNewFlight = false;
+        isNewFlight = false;            // To not generate new file
         saveDataToBackend();
       }
       locationDropdown.style.display = 'none';          // Hide the dropdown
@@ -459,6 +460,7 @@ function createLocationButton(map) {                          // Location Select
 
 function createStartNewMapButton() { 
   document.getElementById('start-new-map-button').addEventListener('click', () => {
+    saveDataToBackend();
     rocketVectorSource.clear();         // Clear the current map, ground altitude, location => MRC
     groundAltitude = 0;
     updateMapView(currentLocation, map);        // Update map center and viewds
@@ -481,6 +483,7 @@ function createLoadOldFileButton() {
   // Loading a file from the scroll menu          // async prob move out if issue.
   document.getElementById('file-list').addEventListener('click', async (event) => {
     const selectedFile = event.target.textContent;
+    //saveDataToBackend();
     if (selectedFile) {
       rocketVectorSource.clear();
       await loadDataFromBackend(selectedFile);
@@ -490,8 +493,9 @@ function createLoadOldFileButton() {
   document.getElementById('load-old-file-button').addEventListener('click', async () => {
     const dropdown = document.getElementById('load-file-dropdown');
     const selectedFile = dropdown.value;
-  
+    saveDataToBackend();
     if (selectedFile) {
+      rocketVectorSource.clear();
       await loadDataFromBackend(selectedFile);
     }
   });
@@ -513,7 +517,8 @@ function updateAutosaveButton() {
   if (autosaveEnabled) {                                  // Autosave ON
     autosaveButton.textContent = 'Autosave ON';
     autosaveButton.style.backgroundColor = '#009024';
-    
+    saveDataToBackend();                                  // Autosave the instant the button is on
+
     if (autosaveIntervalId) {                             // Reset time interval
       clearInterval(autosaveIntervalId);
     }
@@ -706,6 +711,7 @@ async function saveDataToBackend() {                        // Save data to the 
 }
 
 async function loadDataFromBackend(fileName) {              // Load old data from the backend
+  saveDataToBackend();
   try {
     const response = await fetch(`http://localhost:8000/load-data?file=${fileName}`);
     const data = await response.json();
@@ -812,7 +818,6 @@ function checkConnectivity() {
   }
   else {                                          // If online
     updateOfflineMapEnabled(false);                                  // Disable offline maps
-
     onlineLayer.setVisible(true);
     Mojave_Layers.setVisible(false);
     //toggleLocation(currentLocation, false);                    //  DEBUG Hide all Mojave layers

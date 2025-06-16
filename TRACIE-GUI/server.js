@@ -187,7 +187,7 @@ app.get('/load-data', (req, res) => {
   const filePath = join(logFilesMapFolder, fileName);
     correct_fileTimestamp = fileName.split('_').slice(2).join('_').replace('.json', '');       // Update the  correct_fileTimestamp when loading old files 
     console.log(`\nLoading map data from: ${fileName}`);
-    console.log('! NOTE: New data will not be written to this file.\n  To save new data, start a new map or change location.');
+    console.log('! NOTE: New data will not save to any files while an old file is open.\n  To save new data, start a new map or change location.');
 
   fs.readFile(filePath, 'utf8', (err, data) => {
     if (err) {
