@@ -2,7 +2,7 @@ import './style.css';
 import Map from 'ol/Map';
 import View from 'ol/View';
 import TileLayer from 'ol/layer/Tile.js';
-import { fromLonLat } from 'ol/proj.js';
+import { toLonLat, fromLonLat } from 'ol/proj.js';
 import VectorLayer from 'ol/layer/Vector';
 import VectorSource from 'ol/source/Vector';
 import XYZ from 'ol/source/XYZ';
@@ -463,7 +463,7 @@ function createStartNewMapButton() {
     saveDataToBackend();
     rocketVectorSource.clear();         // Clear the current map, ground altitude, location => MRC
     groundAltitude = 0;
-    updateMapView(currentLocation, map);        // Update map center and viewds
+    updateMapView(currentLocation, map);        // Update map center and views
     generateNewLogFile();
   });
 }
@@ -483,7 +483,7 @@ function createLoadOldFileButton() {
   // Loading a file from the scroll menu          // async prob move out if issue.
   document.getElementById('file-list').addEventListener('click', async (event) => {
     const selectedFile = event.target.textContent;
-    //saveDataToBackend();
+    //saveDataToBackend();          // this doesn't work
     if (selectedFile) {
       rocketVectorSource.clear();
       await loadDataFromBackend(selectedFile);
@@ -721,6 +721,9 @@ async function loadDataFromBackend(fileName) {              // Load old data fro
         const rocketMarker = new Feature({
           geometry: new Point(data.coordinates),
         });
+        const lonLat = toLonLat(data.coordinates);
+        rocketMarker.set('latitude', lonLat[0]);   // longitude
+        rocketMarker.set('longitude', lonLat[1]);  // latitude
         rocketMarker.set('raw_altitude', data.raw_altitude);
         rocketMarker.set('true_altitude', data.true_altitude);
         rocketMarker.set('timeStamp', data.timeStamp);
