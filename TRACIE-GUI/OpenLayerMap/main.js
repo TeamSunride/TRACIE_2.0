@@ -35,7 +35,7 @@ let autosaveIntervalId = null;
 const autosaveInterval = 30 *1000;   // 30s secs
 let offlineMapEnabled = false;       // Offline maps inactive unless offline
 let currentLocation = defaultLocation;
-let centerCoords = fromLonLat([defaultLocation.lon, defaultLocation.lat]);
+let centerCoords = fromLonLat([currentLocation.lon, currentLocation.lat]);
 let dotStyleSet = getDotStyleSet(defaultLocation.name);
 //const launchTime = Date.now() / 1000;      //in seconds. need apply formatTimeLater use for onHover: T+ X seconds
 
@@ -169,6 +169,7 @@ createLoadOldFileButton();
 createAutosaveButton();
 createZoomLevelShow();
 createCoordSelectShow();
+createRecenterButton();
 
 // === WEBSOCKET SERVER ===
 function connectWebSocket() {       //Everything that matters with getting data from server.js
@@ -414,6 +415,7 @@ function createPlotPopup() {
 }
 
 function createLocationButton(map) {                          // Location Selection Menu
+  const currentLocationWrapper = document.getElementById('location-wrapper');
   const locationButton = document.getElementById('location-button');
   const locationDropdown = document.getElementById('location-dropdown');
   const locationOptions = document.querySelectorAll('.location-option');
@@ -433,6 +435,7 @@ function createLocationButton(map) {                          // Location Select
         maxZoomSize: parseFloat(option.getAttribute('data-maxZoom')),
       };
       updateMapView(newLocation, map);
+      centerCoords = fromLonLat([newLocation.lon, newLocation.lat]);
       
       if (newLocation.name !== currentLocation.name) { 
         currentLocation = newLocation;
@@ -442,7 +445,6 @@ function createLocationButton(map) {                          // Location Select
         isNewFlight = false;
         saveDataToBackend();
       }
-      //console.log("Current location: ", currentLocation.name);
       locationDropdown.style.display = 'none';          // Hide the dropdown
     });
   });
@@ -599,6 +601,19 @@ function updateMapView(currentLocation, map) {              // Update map view. 
 
   locationButton.textContent = `Current Location: ${currentLocation.name}`;
 }
+
+function createRecenterButton() { 
+  const recenterButton = document.getElementById('recenter-button');
+  recenterButton.addEventListener('click', panToCenter);
+}
+
+function panToCenter() {
+    const view = map.getView();
+    view.animate({
+        center: centerCoords,
+        duration: 1000,               // Animation time in ms
+    });
+  }
 
 // ==== OTHER STUFF ====
 function updateConnectionStatus(status) {
