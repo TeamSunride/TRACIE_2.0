@@ -4,8 +4,6 @@ html, body {
   height: 100%;
 }
 
-
-
 #map {
   position: absolute;
   top: 0;
@@ -66,11 +64,12 @@ html, body {
   background: #f0f0f0;
 }
 
-#recenter-button {
+#recenter-button,
+#start-new-map-button {
   position: relative;
   display: flex;
-  height: 18px;
-  width: 60px;
+  min-height: 18px;
+  min-width: 60px;
   z-index: 1000;
   justify-content: center;
   align-items: center;
@@ -85,7 +84,13 @@ html, body {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+#recenter-button:hover {
+  background: #4aedff;
+}
 
+#start-new-map-button:hover {
+  background: #6cff52;
+}
 
 /* Plot popups */
 .popup {
@@ -180,7 +185,6 @@ html, body {
 
 
 
-#start-new-map-button,
 #load-old-file-button {
   width: 100%;
   padding: 8px 12px;
@@ -192,9 +196,7 @@ html, body {
   margin-top: 5px;
 }
 
-#start-new-map-button:hover {
-  background: #c1ffb6;
-}
+
 
 #load-old-file-button:hover {
   background: #9deaff;
