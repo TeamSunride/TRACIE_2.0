@@ -163,12 +163,12 @@ onlineLayer.setVisible(false);        // Off until shown to be online
 
 checkConnectivity(currentLocation);
 
-connectWebSocket();                 // Start the WebSocket connection and plotting coords
+connectWebSocket(map);                 // Start the WebSocket connection and plotting coords
 const connectionStatusMessage = document.getElementById('status-message');
 const locationButton = createLocationButton(map);
 locationButton.textContent = `Current Location: ${defaultLocation.name}`;
 createPlotPopup(map);
-createStartNewMapButton();
+createStartNewMapButton(map);
 createLoadOldFileButton(map);
 createAutosaveButton();
 createZoomLevelShow();
@@ -176,7 +176,7 @@ createCoordSelectShow();
 createRecenterButton();
 
 // === WEBSOCKET SERVER ===
-function connectWebSocket() {       //Everything that matters with getting data from server.js
+function connectWebSocket(map) {       //Everything that matters with getting data from server.js
   const socket = new WebSocket("ws://localhost:7000");
 
   socket.onopen = function () {
@@ -192,7 +192,7 @@ function connectWebSocket() {       //Everything that matters with getting data 
       if (data.groundAltitude !== undefined) {        // Receive a groundAltitude update
         groundAltitude = data.groundAltitude;
         console.log("[CLIENT] Received Ground altitude update:", groundAltitude);
-        updateMarkerAltitudes();                        // Update all true altitude of previous points, refresh map
+        updateMarkerAltitudes(map);                        // Update all true altitude of previous points, refresh map
       }
 
       else {              
@@ -318,7 +318,7 @@ function getJokeMarker(jokeName) {          //Custom gravestones coming soon...
   }
 }
 
-function updateMarkerAltitudes() {                     //Update previous plots with new groundAltitude
+function updateMarkerAltitudes(map) {                     //Update previous plots with new groundAltitude
   const features = rocketVectorSource.getFeatures();
   features.forEach(feature => {
       const alt = feature.get('raw_altitude');
@@ -489,7 +489,7 @@ function updateMapView(currentLocation, map) {              // Update map view. 
   locationButton.textContent = `Current Location: ${currentLocation.name}`;
 }
 
-function createStartNewMapButton() { 
+function createStartNewMapButton(map) {
   document.getElementById('start-new-map-button').addEventListener('click', () => {
     saveDataToBackend();
     rocketVectorSource.clear();         // Clear the current map, ground altitude, location => MRC
