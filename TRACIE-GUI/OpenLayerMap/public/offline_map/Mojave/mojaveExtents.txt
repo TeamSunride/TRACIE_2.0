@@ -9,7 +9,7 @@ zoom14          14              15              96          high chance use
 zoom15          15              16             120          guarantee use
 zoom16          16              17             120          guarantee use
 
-extents     west east south north   [minx, miny, maxx, maxy]
+extents     west south east north   [minx, miny, maxx, maxy]
 extent12: [-13194658.0652, 4139616.1298, -13032520.1392, 4270744.0700],
 extent13: [-13137914.4843, 4187662.9390, -13088629.3423, 4234362.6309],
 extent14: [-13127113.6819, 4200418.7942, -13102347.0714, 4223648.1668],

@@ -1,0 +1,17 @@
+minZoom: 14.5
+maxZoom: 19
+
+downloaded at
+image name  downloaded at   serves views at    dpi          notes
+zoom14          14              15              96          low chance use
+zoom15          15              16              96          low chance use
+zoom16          16              17              96          mid chance use
+zoom17          17              18              96          guarantee use
+zoom18          18              19              96          guarantee use
+
+extents     west south east north   [minx, miny, maxx, maxy]
+extent14: [-645744.0650, 7437895.9519, -620004.9459, 7457110.5256],
+extent15: [-640777.5602, 7440814.5506, -624955.7974, 7453163.9800],
+extent16: [-637334.7479, 7443967.9116, -628958.1032, 7449907.3419],
+extent17: [-634772.6213, 7445605.2479, -631635.1131, 7447879.5988],
+extent18: [-633755.7500, 7446357.2652, -632794.3741, 7447107.3497],

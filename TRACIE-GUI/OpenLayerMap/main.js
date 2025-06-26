@@ -10,7 +10,7 @@ import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import { Style, Icon, Circle as CircleStyle, Fill, Stroke} from 'ol/style';
 import { icons } from './icons';
-import { Mojave_Layers /* Mach_X_Layers MRC_Layers EARS_Layers */} from './offlineMap';
+import { Mojave_Layers, MACH_X_Layers /* MRC_Layers EARS_Layers */} from './offlineMap';
 import LayerGroup from 'ol/layer/Group.js';
 
 const defaultLocation = {       // Set MRC as default location on start
@@ -138,7 +138,9 @@ centerVectorLayer.setZIndex(1);
 jokeVectorLayer.setZIndex(1);
 
 // ==== MAP ====
-const map = new Map({
+
+function createMap() {
+  const map = new Map({
   target: 'map',
   layers: [
     onlineLayer,
@@ -146,7 +148,7 @@ const map = new Map({
     rocketVectorLayer,
     jokeVectorLayer,
     Mojave_Layers,      // Layer groups
-    //Mach_X_Layers,
+    MACH_X_Layers,
     //MRC_Layers,
     //EARS_Layers,
   ],
@@ -155,8 +157,19 @@ const map = new Map({
     zoom: currentLocation.zoomSize,
     minZoom: currentLocation.minZoomSize,
     maxZoom: currentLocation.maxZoomSize
-  })
-});
+  }),
+  canvasOptions: {
+    willReadFrequently: true,
+  },
+  });
+
+return map;
+}
+
+const map = createMap();
+onlineLayer.setVisible(false);        // Off until shown to be online
+
+checkConnectivity(currentLocation);
 
 connectWebSocket();                 // Start the WebSocket connection and plotting coords
 const connectionStatusMessage = document.getElementById('status-message');
@@ -304,6 +317,15 @@ function getDotStyle(index, total, dotStyleSet) {
   else if (total === 0 || ratio === 1) {return dotStyle_Red;}      //Default & latest points are red
 }
 
+function getJokeMarker(jokeName) {          //Custom gravestones coming soon...
+  if (jokeName == `Fintans_Corner`) { 
+    return `./icon_assets/dangerous_bend.png`;
+  }
+  else {
+      return `./icon_assets/graveMarker.png`;
+  }
+}
+
 function updateMarkerAltitudes() {                     //Update previous plots with new groundAltitude
   const features = rocketVectorSource.getFeatures();
   features.forEach(feature => {
@@ -314,7 +336,7 @@ function updateMarkerAltitudes() {                     //Update previous plots w
   map.render();                           // Refresh the map to reflect changes
 }
 
-// ==== CREATE HTML ELEMENTS ====
+// ==== CREATE HTML ELEMENTS, BUTTONS AND ACTIONS ====
 function createPlotPopup() {
   const existingPopup = document.querySelector('.popup');
   if (existingPopup) {
@@ -434,6 +456,9 @@ function createLocationButton(map) {                          // Location Select
         maxZoomSize: parseFloat(option.getAttribute('data-maxZoom')),
       };
       updateMapView(newLocation, map);
+
+      checkConnectivity(newLocation);
+      
       centerCoords = fromLonLat([newLocation.lon, newLocation.lat]);
       
       if (newLocation.name !== currentLocation.name) { 
@@ -456,6 +481,20 @@ function createLocationButton(map) {                          // Location Select
     }
   });
   return locationButton;
+}
+
+function updateMapView(currentLocation, map) {              // Update map view. Used by Location Selection Menu, Start-New-Map, & Load-Old-File
+  const newCenterCoords = fromLonLat([currentLocation.lon, currentLocation.lat]);
+  map.getView().setCenter(newCenterCoords);                                           // Update the map view, center marker, dotsStyle, & Location Select button text
+  map.getView().setZoom(currentLocation.zoomSize);
+  map.getView().setMinZoom(currentLocation.minZoomSize);
+  map.getView().setMaxZoom(currentLocation.maxZoomSize);
+
+  centerMarker.getGeometry().setCoordinates(newCenterCoords);
+  centerVectorSource.changed();
+  dotStyleSet = getDotStyleSet(currentLocation.name);
+
+  locationButton.textContent = `Current Location: ${currentLocation.name}`;
 }
 
 function createStartNewMapButton() { 
@@ -547,7 +586,6 @@ function updateZoomLevelShow() {
   const currentZoom = map.getView().getZoom();
   zoomLevelShow.textContent = `Zoom: ${currentZoom.toFixed(2)}`;
 }
-
 map.getView().on('change:resolution', updateZoomLevelShow);
 
 function createCoordSelectShow() { 
@@ -593,20 +631,6 @@ function copyText() {
   }
 }
 
-function updateMapView(currentLocation, map) {              // Update map view. Used by Location Selection Menu, Start-New-Map, & Load-Old-File
-  const newCenterCoords = fromLonLat([currentLocation.lon, currentLocation.lat]);
-  map.getView().setCenter(newCenterCoords);                                           // Update the map view, center marker, dotsStyle, & Location Select button text
-  map.getView().setZoom(currentLocation.zoomSize);
-  map.getView().setMinZoom(currentLocation.minZoomSize);
-  map.getView().setMaxZoom(currentLocation.maxZoomSize);
-
-  centerMarker.getGeometry().setCoordinates(newCenterCoords);
-  centerVectorSource.changed();
-  dotStyleSet = getDotStyleSet(currentLocation.name);
-
-  locationButton.textContent = `Current Location: ${currentLocation.name}`;
-}
-
 function createRecenterButton() { 
   const recenterButton = document.getElementById('recenter-button');
   recenterButton.addEventListener('click', panToCenter);
@@ -620,7 +644,6 @@ function panToCenter() {
     });
   }
 
-// ==== OTHER STUFF ====
 function updateConnectionStatus(status) {
   switch (status) { 
     case 'grey': 
@@ -643,7 +666,6 @@ function updateConnectionStatus(status) {
       break;
   }
 }
-//'https://upload.wikimedia.org/wikipedia/commons/a/a3/June_odd-eyed-cat.jpg'       //Fav placeholder image
 
 // ==== SAVE AND LOADING MAP DATA ====
 function generateFileName(location) {                         // FIlename for map log files
@@ -784,7 +806,6 @@ async function populateFileList() {                                       // Pop
   }
 }
 
-// === HELPER FUNCTIONS ===
 function getCurrentTime() {
   const now = new Date();
   const hours = String(now.getHours()).padStart(2, '0');
@@ -793,52 +814,27 @@ function getCurrentTime() {
   return `${hours}:${minutes}:${seconds}`;
 }
 
-function getJokeMarker(jokeName) {          //Custom gravestones coming soon...
-  if (jokeName == `Fintans_Corner`) { 
-    return `./icon_assets/dangerous_bend.png`;
-  }
-  else {
-      return `./icon_assets/graveMarker.png`;
-  }
-}
-
 function extractISODateTime(filename) {
   // Helper function to extract ISO date and time from filename
   return filename.split('_').slice(1).join('_').replace('.json', '');
 }
 
-function updateOfflineMapEnabled(boolean) { 
-  offlineMapEnabled = boolean;
+// ==++ ON/OFFLINE MAP ACTIVATION ==+=
+function checkConnectivity(currentLocation) {
+  const isOffline = !navigator.onLine;
+  console.log(isOffline ? "OFFLINE MODE" : "ONLINE MODE");
+
+  // Toggle visibility
+  onlineLayer.setVisible(!isOffline);
+  Mojave_Layers.setVisible(isOffline && currentLocation.name == "Mojave");
+  MACH_X_Layers.setVisible(isOffline && currentLocation.name == "MACH-X");
+
+  console.log(`Mojave visible: ${Mojave_Layers.getVisible()}`);
+  console.log(`MACH_X visible: ${MACH_X_Layers.getVisible()}`);
+  console.log(`Online visible: ${onlineLayer.getVisible()}`);
 }
+window.onload = async function () {                          // Load the save file options when the map is opened
 
-function checkConnectivity() {
-  if (!navigator.onLine) {                          // If offline
-    updateOfflineMapEnabled(true);                                    // Set offlineLayers array (containing each locaion) active so they can be visible
-    //toggleLocation(currentLocation, true); 
-    onlineLayer.setVisible(false);
-    Mojave_Layers.setVisible(true);
-    console.log('OFFLINE MAP');
-  }
-  else {                                          // If online
-    updateOfflineMapEnabled(false);                                  // Disable offline maps
-    onlineLayer.setVisible(true);
-    Mojave_Layers.setVisible(false);
-    //toggleLocation(currentLocation, false);                    //  DEBUG Hide all Mojave layers
-    console.log('ONLINE MAP');
-  }
-}
-
-// NEW toggle when on
-/*
-function toggleLocation(locationName, isVisible) {
-  const locationLayer = 
-
-  locationLayers?.forEach(layer => layer.setVisible(isVisible));
-}
-  */
-
-window.onload = function () {                           // Load the save file options when the map is opened
-  checkConnectivity();
   populateFileList();                                                                                                       //console.log('[INIT] Page loaded and dropdown populated');
   updateConnectionStatus('grey');                      // TRACIE connection status until good package received
   generateNewLogFile();
@@ -846,3 +842,52 @@ window.onload = function () {                           // Load the save file op
 
 window.addEventListener('beforeunload', saveDataToBackend);   // Save data when the browser is closed or refreshed
 //window.addEventListener('pagehide', saveDataToBackend);     // For mobile/bfcache
+
+//'https://upload.wikimedia.org/wikipedia/commons/a/a3/June_odd-eyed-cat.jpg'       //Fav placeholder image
+
+/*
+function checkConnectivity() {
+  return new Promise((resolve) => {
+    if (!navigator.onLine) {                          // If offline
+      updateOfflineMapEnabled(true);                  // Set offlineLayers array (containing each locaion) active so they can be visible
+      onlineLayer.setVisible(false);
+      deactivateAllOfflineMaps();
+      activateOfflineMap(true);
+      //{currentLocation}_Layers.setVisible(true);
+      console.log(`updateOfflineMapEnabled: ${offlineMapEnabled}`);
+      console.log('OFFLINE MAP');
+    }
+    else {                                          // If online
+      updateOfflineMapEnabled(false);                                  // Disable offline maps
+      onlineLayer.setVisible(true);
+      deactivateAllOfflineMaps();
+      console.log(`updateOfflineMapEnabled: ${offlineMapEnabled}`);
+      console.log('ONLINE MAP');
+    }
+      resolve();
+  });
+}
+*/
+
+/*
+function updateOfflineMapEnabled(boolean) { 
+  offlineMapEnabled = boolean;
+}
+
+function deactivateAllOfflineMaps() { 
+  Mojave_Layers.setVisible(false);
+  MACH_X_Layers.setVisible(false);
+  //MRC_Layers.setVisible(false);
+  //EARS_Layers.setVisible(false);
+}
+
+function activateOfflineMap(boolean) {
+  if (boolean == true) {                              // If set to true
+    MACH_X_Layers.setVisible(true);
+    //{currentLocation}_Layers.setVisible(true);         // Add when all 4 locations added
+  }
+  else { 
+    deactivateAllOfflineMaps();
+  }
+}
+*/
