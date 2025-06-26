@@ -51,10 +51,11 @@ const Mojave = {
 
 const locationObjectArray = [/*MRC, EARS*/Mojave, MACH_X];
 
-export const Mojave_Layers = createOfflineLayerArray(Mojave);
-export const MACH_X_Layers = createOfflineLayerArray(MACH_X);
 //export const MRC_Layers = createOfflineLayerArray(MRC);
 //export const EARS_Layers = createOfflineLayerArray(EARS);
+export const Mojave_Layers = createOfflineLayerArray(Mojave);
+export const MACH_X_Layers = createOfflineLayerArray(MACH_X);
+
 
 
 // ==== FUNCTIONS ====

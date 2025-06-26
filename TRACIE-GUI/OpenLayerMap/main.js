@@ -32,8 +32,7 @@ let selectedPlotCoords = '';
 let isNewFlight = true;
 let autosaveEnabled = false;
 let autosaveIntervalId = null;
-const autosaveInterval = 5 *1000;   // 30s secs   CHANGE TO 5s
-let offlineMapEnabled = false;       // Offline maps inactive unless offline
+const autosaveInterval = 5 *1000;   // 5s
 let currentLocation = defaultLocation;
 let centerCoords = fromLonLat([currentLocation.lon, currentLocation.lat]);
 let dotStyleSet = getDotStyleSet(defaultLocation.name);
@@ -138,19 +137,17 @@ centerVectorLayer.setZIndex(1);
 jokeVectorLayer.setZIndex(1);
 
 // ==== MAP ====
-
-function createMap() {
-  const map = new Map({
+const map = new Map({
   target: 'map',
   layers: [
     onlineLayer,
     centerVectorLayer,
     rocketVectorLayer,
     jokeVectorLayer,
-    Mojave_Layers,      // Layer groups
-    MACH_X_Layers,
-    //MRC_Layers,
+    //MRC_Layers,     // Layer groups
     //EARS_Layers,
+    Mojave_Layers,
+    MACH_X_Layers,
   ],
   view: new View({
     center: fromLonLat([currentLocation.lon, currentLocation.lat]),
@@ -161,12 +158,7 @@ function createMap() {
   canvasOptions: {
     willReadFrequently: true,
   },
-  });
-
-return map;
-}
-
-const map = createMap();
+});
 onlineLayer.setVisible(false);        // Off until shown to be online
 
 checkConnectivity(currentLocation);
@@ -826,15 +818,20 @@ function checkConnectivity(currentLocation) {
 
   // Toggle visibility
   onlineLayer.setVisible(!isOffline);
+  //MRC_Layers.setVisible(isOffline && currentLocation.name == "MRC");
+  //EARS_Layers.setVisible(isOffline && currentLocation.name == "EARS");
   Mojave_Layers.setVisible(isOffline && currentLocation.name == "Mojave");
   MACH_X_Layers.setVisible(isOffline && currentLocation.name == "MACH-X");
 
+  // DEBUG
+  console.log(`Online visible: ${onlineLayer.getVisible()}`);
+  //  console.log(`MRC visible: ${MRC_Layers.getVisible()}`);
+  //  console.log(`EARS visible: ${EARS_Layers.getVisible()}`);
   console.log(`Mojave visible: ${Mojave_Layers.getVisible()}`);
   console.log(`MACH_X visible: ${MACH_X_Layers.getVisible()}`);
-  console.log(`Online visible: ${onlineLayer.getVisible()}`);
+
 }
 window.onload = async function () {                          // Load the save file options when the map is opened
-
   populateFileList();                                                                                                       //console.log('[INIT] Page loaded and dropdown populated');
   updateConnectionStatus('grey');                      // TRACIE connection status until good package received
   generateNewLogFile();
@@ -844,50 +841,3 @@ window.addEventListener('beforeunload', saveDataToBackend);   // Save data when 
 //window.addEventListener('pagehide', saveDataToBackend);     // For mobile/bfcache
 
 //'https://upload.wikimedia.org/wikipedia/commons/a/a3/June_odd-eyed-cat.jpg'       //Fav placeholder image
-
-/*
-function checkConnectivity() {
-  return new Promise((resolve) => {
-    if (!navigator.onLine) {                          // If offline
-      updateOfflineMapEnabled(true);                  // Set offlineLayers array (containing each locaion) active so they can be visible
-      onlineLayer.setVisible(false);
-      deactivateAllOfflineMaps();
-      activateOfflineMap(true);
-      //{currentLocation}_Layers.setVisible(true);
-      console.log(`updateOfflineMapEnabled: ${offlineMapEnabled}`);
-      console.log('OFFLINE MAP');
-    }
-    else {                                          // If online
-      updateOfflineMapEnabled(false);                                  // Disable offline maps
-      onlineLayer.setVisible(true);
-      deactivateAllOfflineMaps();
-      console.log(`updateOfflineMapEnabled: ${offlineMapEnabled}`);
-      console.log('ONLINE MAP');
-    }
-      resolve();
-  });
-}
-*/
-
-/*
-function updateOfflineMapEnabled(boolean) { 
-  offlineMapEnabled = boolean;
-}
-
-function deactivateAllOfflineMaps() { 
-  Mojave_Layers.setVisible(false);
-  MACH_X_Layers.setVisible(false);
-  //MRC_Layers.setVisible(false);
-  //EARS_Layers.setVisible(false);
-}
-
-function activateOfflineMap(boolean) {
-  if (boolean == true) {                              // If set to true
-    MACH_X_Layers.setVisible(true);
-    //{currentLocation}_Layers.setVisible(true);         // Add when all 4 locations added
-  }
-  else { 
-    deactivateAllOfflineMaps();
-  }
-}
-*/
