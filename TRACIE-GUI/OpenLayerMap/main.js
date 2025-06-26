@@ -167,9 +167,9 @@ connectWebSocket();                 // Start the WebSocket connection and plotti
 const connectionStatusMessage = document.getElementById('status-message');
 const locationButton = createLocationButton(map);
 locationButton.textContent = `Current Location: ${defaultLocation.name}`;
-createPlotPopup();
+createPlotPopup(map);
 createStartNewMapButton();
-createLoadOldFileButton();
+createLoadOldFileButton(map);
 createAutosaveButton();
 createZoomLevelShow();
 createCoordSelectShow();
@@ -329,7 +329,7 @@ function updateMarkerAltitudes() {                     //Update previous plots w
 }
 
 // ==== CREATE HTML ELEMENTS, BUTTONS AND ACTIONS ====
-function createPlotPopup() {
+function createPlotPopup(map) {
   const existingPopup = document.querySelector('.popup');
   if (existingPopup) {
     existingPopup.remove();
@@ -499,7 +499,7 @@ function createStartNewMapButton() {
   });
 }
 
-function createLoadOldFileButton() { 
+function createLoadOldFileButton(map) { 
   document.getElementById('file-button').addEventListener('click', () => {
     const fileDropdown = document.getElementById('file-dropdown');
     fileDropdown.style.display = fileDropdown.style.display === 'block' ? 'none' : 'block';
@@ -517,7 +517,7 @@ function createLoadOldFileButton() {
     //saveDataToBackend();          // this doesn't work
     if (selectedFile) {
       rocketVectorSource.clear();
-      await loadDataFromBackend(selectedFile);
+      await loadDataFromBackend(selectedFile, map);
     }
   });
 
@@ -527,7 +527,7 @@ function createLoadOldFileButton() {
     saveDataToBackend();
     if (selectedFile) {
       rocketVectorSource.clear();
-      await loadDataFromBackend(selectedFile);
+      await loadDataFromBackend(selectedFile, map);
     }
   });
 }
@@ -724,7 +724,7 @@ async function saveDataToBackend() {                        // Save data to the 
   }
 }
 
-async function loadDataFromBackend(fileName) {              // Load old data from the backend
+async function loadDataFromBackend(fileName, map) {              // Load old data from the backend
   saveDataToBackend();
   try {
     const response = await fetch(`http://localhost:8000/load-data?file=${fileName}`);
@@ -753,9 +753,10 @@ async function loadDataFromBackend(fileName) {              // Load old data fro
     if (data.currentLocation) {
       currentLocation = data.currentLocation;
       updateMapView(currentLocation, map);
+      checkConnectivity(currentLocation);
     }
 
-    createPlotPopup();
+    createPlotPopup(map);
     console.log(`[LOAD] Data loaded successfully from ${fileName}`);
   }
   catch (error) {
