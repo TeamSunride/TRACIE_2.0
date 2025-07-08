@@ -13,13 +13,13 @@ import { icons } from './icons';
 import { Mojave_Layers, MACH_X_Layers /* MRC_Layers EARS_Layers */} from './offlineMap';
 import LayerGroup from 'ol/layer/Group.js';
 
-const defaultLocation = {       // Set Mach-X as default location   
-  name: 'MACH-X',
-  lon: -5.687638,
-  lat: 55.434629, 
+const defaultLocation = {       // Set MRC as default location
+  name: 'MRC',
+  lon: -1.524257,
+  lat: 52.668952,
   zoomSize: 16.8,
-  minZoomSize: 14.5,
-  maxZoomSize: 19,
+  minZoomSize: 14,
+  maxZoomSize: 20,
 };
 
 // ==== SET UP EVERYTHING ====
