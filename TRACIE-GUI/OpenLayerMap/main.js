@@ -13,15 +13,14 @@ import { icons } from './icons';
 import { Mojave_Layers, MACH_X_Layers /* MRC_Layers EARS_Layers */} from './offlineMap';
 import LayerGroup from 'ol/layer/Group.js';
 
-const defaultLocation = {       // Set MRC as default location on start
-  name: 'MRC',
-  lon: -1.524257,
-  lat: 52.668952,
+const defaultLocation = {       // Set Mach-X as default location   
+  name: 'MACH-X',
+  lon: -5.687638,
+  lat: 55.434629, 
   zoomSize: 16.8,
-  minZoomSize:14,
-  maxZoomSize: 20,
+  minZoomSize: 14.5,
+  maxZoomSize: 19,
 };
-
 
 // ==== SET UP EVERYTHING ====
 let groundAltitude = 0;
@@ -174,6 +173,10 @@ createAutosaveButton();
 createZoomLevelShow();
 createCoordSelectShow();
 createRecenterButton();
+
+
+
+
 
 // === WEBSOCKET SERVER ===
 function connectWebSocket(map) {       //Everything that matters with getting data from server.js
@@ -482,6 +485,7 @@ function updateMapView(currentLocation, map) {              // Update map view. 
   map.getView().setMinZoom(currentLocation.minZoomSize);
   map.getView().setMaxZoom(currentLocation.maxZoomSize);
 
+  centerCoords = newCenterCoords;
   centerMarker.getGeometry().setCoordinates(newCenterCoords);
   centerVectorSource.changed();
   dotStyleSet = getDotStyleSet(currentLocation.name);
