@@ -10,16 +10,16 @@ import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import { Style, Icon, Circle as CircleStyle, Fill, Stroke} from 'ol/style';
 import { icons } from './icons';
-import { Mojave_Layers, MACH_X_Layers /* MRC_Layers EARS_Layers */} from './offlineMap';
+import { MRC_Layers, /*EARS_Layers, */ Mojave_Layers, MACH_X_Layers,} from './offlineMap';
 import LayerGroup from 'ol/layer/Group.js';
 
 const defaultLocation = {       // Set MRC as default location
-  name: 'MRC',
+  name: "MRC",
   lon: -1.524257,
   lat: 52.668952,
   zoomSize: 16.8,
   minZoomSize: 14,
-  maxZoomSize: 20,
+  maxZoomSize: 19,
 };
 
 // ==== SET UP EVERYTHING ====
@@ -143,7 +143,7 @@ const map = new Map({
     centerVectorLayer,
     rocketVectorLayer,
     jokeVectorLayer,
-    //MRC_Layers,     // Layer groups
+    MRC_Layers,     // Layer groups
     //EARS_Layers,
     Mojave_Layers,
     MACH_X_Layers,
@@ -823,14 +823,14 @@ function checkConnectivity(currentLocation) {
 
   // Toggle visibility
   onlineLayer.setVisible(!isOffline);
-  //MRC_Layers.setVisible(isOffline && currentLocation.name == "MRC");
+  MRC_Layers.setVisible(isOffline && currentLocation.name == "MRC");
   //EARS_Layers.setVisible(isOffline && currentLocation.name == "EARS");
   Mojave_Layers.setVisible(isOffline && currentLocation.name == "Mojave");
   MACH_X_Layers.setVisible(isOffline && currentLocation.name == "MACH-X");
 
   // DEBUG
   console.log(`Online visible: ${onlineLayer.getVisible()}`);
-  //  console.log(`MRC visible: ${MRC_Layers.getVisible()}`);
+  console.log(`MRC visible: ${MRC_Layers.getVisible()}`);
   //  console.log(`EARS visible: ${EARS_Layers.getVisible()}`);
   console.log(`Mojave visible: ${Mojave_Layers.getVisible()}`);
   console.log(`MACH_X visible: ${MACH_X_Layers.getVisible()}`);

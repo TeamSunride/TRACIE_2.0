@@ -2,17 +2,22 @@ import ImageLayer from 'ol/layer/Image.js'
 import Static from 'ol/source/ImageStatic';
 import LayerGroup from 'ol/layer/Group.js';
 
-/*
+
  // Each location as an object. Extents in Web Mercator
 const MRC = {
     name: "MRC",
     layerMin: 13,
-    layerMax : 16,
+    layerMax: 18,
     extents : {
-
+        extent13: [-178834.3395, 6915081.5256, -158866.2630, 6928393.5767],
+        extent14: [-174152.5791, 6918020.6531, -164645.7241, 6925368.1622],
+        extent15: [-171457.2156, 6920336.0949, -167316.0521, 6924048.0213],
+        extent16: [-170923.8310, 6921219.1877, -168025.1836, 6923415.4855],
+        extent17: [-170123.7397, 6921770.1688, -169013.9497, 6922777.1287],
+        extent18: [-169868.2310, 6921886.5322, -169354.8788, 6922359.2803],
     }
 };
-
+/*
 const EARS = {
     name: "EARS",
     layerMin: 13,
@@ -49,9 +54,9 @@ const Mojave = {
 }
 
 
-const locationObjectArray = [/*MRC, EARS*/Mojave, MACH_X];
+const locationObjectArray = [MRC, /*EARS*/Mojave, MACH_X];
 
-//export const MRC_Layers = createOfflineLayerArray(MRC);
+export const MRC_Layers = createOfflineLayerArray(MRC);
 //export const EARS_Layers = createOfflineLayerArray(EARS);
 export const Mojave_Layers = createOfflineLayerArray(Mojave);
 export const MACH_X_Layers = createOfflineLayerArray(MACH_X);
