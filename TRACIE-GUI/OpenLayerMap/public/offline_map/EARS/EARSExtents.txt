@@ -1,0 +1,21 @@
+minZoom: 14
+maxZoom: 19
+
+downloaded at
+image name  downloaded at   serves views at    dpi          notes
+zoom13          13              14              96          colossal, hope it doesn't get used
+zoom14          14              15              96          low chance use
+zoom15          15              16              96          mid chance use
+zoom16          16              17             100          high chance use
+zoom17          17              18             120          guarantee use
+zoom18          18              19             120          guarantee use
+
+extents     west south east north   [minx, miny, maxx, maxy]
+extent13: [-19432.8177, 6834123.7404, -726.6255, 6853809.6350],
+extent14: [-16279.4007, 6839542.7192, -3053.4186, 6850839.9122],
+extent15: [-13629.3578, 6841879.8240, -6099.3160, 6848015.4136],
+extent16: [-12037.6191, 6843960.7770, -8485.6017, 6846979.5816],
+extent17: [-11110.1018, 6844905.9105, -9486.9386, 6846214.9131],
+extent18: [-10719.0170, 6845327.6523, -10000.5178, 6845873.3768],
+
+

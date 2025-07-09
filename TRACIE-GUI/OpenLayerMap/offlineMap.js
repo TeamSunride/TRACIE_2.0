@@ -17,16 +17,20 @@ const MRC = {
         extent18: [-169868.2310, 6921886.5322, -169354.8788, 6922359.2803],
     }
 };
-/*
+
 const EARS = {
     name: "EARS",
     layerMin: 13,
-    layerMax : 16,
+    layerMax : 17,
     extents : {
-
+        extent13: [-19432.8177, 6834123.7404, -726.6255, 6853809.6350],
+        extent14: [-16279.4007, 6839542.7192, -3053.4186, 6850839.9122],
+        extent15: [-13629.3578, 6841879.8240, -6099.3160, 6848015.4136],
+        extent16: [-12037.6191, 6843960.7770, -8485.6017, 6846979.5816],
+        extent17: [-11355.1408, 6844426.6595, -8882.9231, 6846539.1428],
     }
 };
-*/
+
 const MACH_X = {
     name: "MACH-X",
     layerMin:14,
@@ -54,10 +58,10 @@ const Mojave = {
 }
 
 
-const locationObjectArray = [MRC, /*EARS*/Mojave, MACH_X];
+const locationObjectArray = [MRC, EARS, Mojave, MACH_X];
 
 export const MRC_Layers = createOfflineLayerArray(MRC);
-//export const EARS_Layers = createOfflineLayerArray(EARS);
+export const EARS_Layers = createOfflineLayerArray(EARS);
 export const Mojave_Layers = createOfflineLayerArray(Mojave);
 export const MACH_X_Layers = createOfflineLayerArray(MACH_X);
 
