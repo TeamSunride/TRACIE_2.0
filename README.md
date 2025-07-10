@@ -6,7 +6,7 @@
 
 
 ## Usage
-- *Open a Git Bash terminal and type `bash run.sh`
+- Open a Git Bash terminal and type `bash run.sh`
 - Plug in the ground station and select it in the config tab
 - Click `CONNECT` to connect to the ground station
 - Change channels if needed from the config tab
