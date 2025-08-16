@@ -1,5 +1,6 @@
 cd TRACIE-GUI
 trap "echo 'Stopping all processes...'; kill 0; exit" SIGINT
+export $(grep -v '^#' .env | xargs)
 node server.js &
 cd OpenLayerMap
 npx vite build

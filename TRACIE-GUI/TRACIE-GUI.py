@@ -3,13 +3,10 @@ import PySide6
 from PySide6.QtWidgets import QApplication, QMainWindow
 from PySide6.QtCore import QUrl, QThread
 from PySide6.QtGui import QDesktopServices
-
 from PySide6 import QtCore, QtWidgets
-
 import Interface_ui
 import sys
 from fakeSerial import FakeSerial
-
 import io
 import time
 import numpy as np
@@ -19,22 +16,20 @@ import serial
 import json
 import asyncio
 import websockets
-
-
 from collections import deque
 import os
 import pyqtgraph as pg
 import csv
 from simplekml import Kml
 import simplekml
-
 import sys
 import threading
 from flask import Flask, send_from_directory
 
+WS_PORT = os.environ.get("WS_PORT", "7000")
+CLIENT_PORT = os.environ.get("CLIENT_PORT", "4040")
 
 app = Flask(__name__)       # Initialize Flask app to run map
-
 current_dir = os.path.dirname(os.path.abspath(__file__))             
 bundled_dir = os.path.join(current_dir, 'OpenLayerMap', 'dist')         #Path to OpenLayers bundled HTML
 
@@ -48,7 +43,8 @@ def serve_static(filename):
     return send_from_directory(bundled_dir, filename)
 
 def run_flask():
-    app.run(debug=False, host='localhost', port=4040)
+    app.run(debug=False, host='localhost', port= int(CLIENT_PORT))
+    #app.run(debug=False, host='localhost', port=4040)
 
 # WEBSOCKET SERVER
 class AsyncioThread(QThread):
@@ -63,7 +59,8 @@ class AsyncioThread(QThread):
         self.loop.run_forever()
 
     async def send_message_to_websocket(self, data, message_type):           #Send data to websocket server
-        uri = "ws://localhost:7000"
+        uri = "ws://localhost:{}".format(int(WS_PORT))
+        #uri = "ws://localhost:7000"
         try:
             async with websockets.connect(uri) as ws:
                 if message_type == "data_message":
@@ -108,7 +105,7 @@ class TRACIE_GUI(QMainWindow, Interface_ui.Ui_MainWindow):
         self.selectedDevice = ""
         
         # ==== SELECT REAL/FAKE SERIAL ====
-        self.ser_realfake = 1                 # 1 for REAL (TRACIE board connected). 0 for FAKE (fakeSerial.py)
+        self.ser_realfake = 0                 # 1 for REAL (TRACIE board connected). 0 for FAKE (fakeSerial.py)
         if (self.ser_realfake == 1):
             self.ser = None
         elif (self.ser_realfake == 0):
@@ -324,7 +321,7 @@ class TRACIE_GUI(QMainWindow, Interface_ui.Ui_MainWindow):
             f.write(",".join(self.raw_data) + "\n")
 
     def start_map(self):
-        url = "http://localhost:4040/map"       # Open map in local browser
+        url = "http://localhost:{}/map".format(int(CLIENT_PORT))       # Open map in local browser
         QDesktopServices.openUrl(QUrl(url)) 
 
 

@@ -12,7 +12,10 @@ const __dirname = dirname(__filename);
 
 const app = express();
 const server = createServer(app);
-const port = 8000; // HTTP server on port 8000
+const HTTP_PORT = process.env.HTTP_PORT || 8000;
+const WS_PORT = process.env.WS_PORT || 7000;
+const CLIENT_PORT = process.env.CLIENT_PORT || 4040;
+//const port = 8000; // HTTP server on port 8000
 
 const logFilesMapFolder = join(__dirname, '../TRACIE-GUI/OpenLayerMap/log_files_map');
 //console.log("Log file save path to:", logFilesMapFolder);
@@ -23,15 +26,17 @@ if (!fs.existsSync(logFilesMapFolder)) {
 }
 
 app.use(cors({                          // Enable CORS for all routes
-  origin: 'http://localhost:4040',
+  //origin: `http://localhost:4040`,
+  origin: `http://localhost:${CLIENT_PORT}`,
   methods: ['GET', 'POST'],             // Allow only specific HTTP methods
   credentials: true,                   // Allow cookies and credentials
 }));
 
 app.use(express.json());
 
-//==============================================
-const wss = new WebSocketServer({ port: 7000 });
+//=============================================
+//const wss = new WebSocketServer({ port: 7000 });
+const wss = new WebSocketServer({ port: WS_PORT });
 let mapClient = null;  // Track the MAIN.JS client
 let data_received = null;
 let hasSentRedAlert = false;
@@ -134,7 +139,8 @@ wss.on('connection', (ws) => {
   });
 });
 
-console.log("[SERVER] WebSocket server running on: ws://localhost:7000");
+console.log(`[SERVER] WebSocket server running on: ws://localhost:${WS_PORT}`);
+//console.log(`[SERVER] WebSocket server running on: ws://localhost:7000`);
 
 process.on('SIGINT', () => {
   clearInterval(inactivityChecker);
@@ -210,8 +216,8 @@ app.get('/list-save-files', (req, res) => {
 });
 
 // Start the HTTP server for saving data
-server.listen(port, () => {
-  console.log(`[SERVER] Data-saving HTTP server running on http://localhost:${port}`);
+server.listen(parseInt(HTTP_PORT), () => {
+  console.log(`[SERVER] Data-saving HTTP server running on http://localhost:${HTTP_PORT}`);
 });
 
 process.on('SIGINT', () => {

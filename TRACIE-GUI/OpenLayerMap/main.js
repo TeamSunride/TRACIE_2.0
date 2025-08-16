@@ -9,9 +9,12 @@ import XYZ from 'ol/source/XYZ';
 import Feature from 'ol/Feature';
 import Point from 'ol/geom/Point';
 import { Style, Icon, Circle as CircleStyle, Fill, Stroke} from 'ol/style';
-import { icons } from './icons';
+//import { icons } from './icons';
 import { MRC_Layers, EARS_Layers, Mojave_Layers, MACH_X_Layers,} from './offlineMap';
 import LayerGroup from 'ol/layer/Group.js';
+
+const HTTP_PORT = process.env.HTTP_PORT || 8000;
+const WS_PORT = process.env.WS_PORT || 7000;
 
 const defaultLocation = {       // Set MRC as default location
   name: "MRC",
@@ -177,10 +180,10 @@ createRecenterButton();
 
 
 
-
 // === WEBSOCKET SERVER ===
 function connectWebSocket(map) {       //Everything that matters with getting data from server.js
-  const socket = new WebSocket("ws://localhost:7000");
+  const socket = new WebSocket(`ws://localhost:${WS_PORT}`);
+  //const socket = new WebSocket(`ws://localhost:7000`);
 
   socket.onopen = function () {
     console.log("[MAIN.JS] Connected to WebSocket server!");
@@ -698,7 +701,8 @@ async function saveDataToBackend() {                        // Save data to the 
   //const fileName = isNewFlight ? generateFileName(currentLocation.name) : `${currentFileName}.json`;     // If new flight, create new file. Else, save to current file.
 
   try {
-    const response = await fetch('http://localhost:8000/save-data', {
+    const response = await fetch(`http://localhost:${HTTP_PORT}/save-data`, {
+    //const response = await fetch(`http://localhost:8000/save-data`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -731,7 +735,8 @@ async function saveDataToBackend() {                        // Save data to the 
 async function loadDataFromBackend(fileName, map) {              // Load old data from the backend
   saveDataToBackend();
   try {
-    const response = await fetch(`http://localhost:8000/load-data?file=${fileName}`);
+    const response = await fetch(`http://localhost:${HTTP_PORT}/load-data?file=${fileName}`);
+    //const response = await fetch(`http://localhost:8000/load-data?file=${fileName}`);
     const data = await response.json();
 
     if (data.rocketData) {                                          // Keep the if (data.XXX) in case of loading an empty file
@@ -770,7 +775,8 @@ async function loadDataFromBackend(fileName, map) {              // Load old dat
 
 async function populateFileList() {                                       // Populate the dropdown menu with save files
   try {
-    const response = await fetch('http://localhost:8000/list-save-files');
+    const response = await fetch(`http://localhost:${HTTP_PORT}/list-save-files`);
+    //const response = await fetch(`http://localhost:8000/list-save-files`);
     const files = await response.json();
 
     // Sort files by date in descending order
