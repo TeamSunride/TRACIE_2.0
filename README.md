@@ -1,17 +1,12 @@
 # TRACIE 2.0
 
 ## Installation Instructions
-- Clone the repository
-- Install Node.js: https://nodejs.org/
-- Install Python: https://www.python.org/downloads/
+- Follow the Download Guide from the Google Drive
+- https://docs.google.com/document/d/1i2JipGM1QZbihUv8kPG_m3L6ounw7xVsPRzF2cWK3lU/edit?usp=sharing
 
-- In your IDE, open a Powershell terminal.
-- Download the dependencies according to your operating system:
-  - Windows: `.\firstDownload.ps1`
-  - MacOS / Linux: `pwsh ./firstDownload.ps1`
 
 ## Usage
-- *Open a Git Bash terminal and type `bash run.sh`
+- Open a Git Bash terminal and type `bash run.sh`
 - Plug in the ground station and select it in the config tab
 - Click `CONNECT` to connect to the ground station
 - Change channels if needed from the config tab
