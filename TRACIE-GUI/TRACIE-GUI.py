@@ -44,7 +44,6 @@ def serve_static(filename):
 
 def run_flask():
     app.run(debug=False, host='localhost', port= int(CLIENT_PORT))
-    #app.run(debug=False, host='localhost', port=4040)
 
 # WEBSOCKET SERVER
 class AsyncioThread(QThread):
@@ -60,7 +59,6 @@ class AsyncioThread(QThread):
 
     async def send_message_to_websocket(self, data, message_type):           #Send data to websocket server
         uri = "ws://localhost:{}".format(int(WS_PORT))
-        #uri = "ws://localhost:7000"
         try:
             async with websockets.connect(uri) as ws:
                 if message_type == "data_message":
@@ -105,7 +103,7 @@ class TRACIE_GUI(QMainWindow, Interface_ui.Ui_MainWindow):
         self.selectedDevice = ""
         
         # ==== SELECT REAL/FAKE SERIAL ====
-        self.ser_realfake = 0                 # 1 for REAL (TRACIE board connected). 0 for FAKE (fakeSerial.py)
+        self.ser_realfake = 1                 # 1 for REAL (TRACIE board connected). 0 for FAKE (fakeSerial.py)
         if (self.ser_realfake == 1):
             self.ser = None
         elif (self.ser_realfake == 0):
